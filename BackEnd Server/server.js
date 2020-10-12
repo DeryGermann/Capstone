@@ -5,11 +5,11 @@ let bodyParser = require('body-parser');
 const cors = require('cors');
 
 let mongoose = require('mongoose');
-let record = require('./models/modelRecord');
+let account = require('./models/modelAccount');
 let security = require('./models/modelSecurity');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/LoLRecordDb');
+mongoose.connect('mongodb://localhost/CapstonePuzzleDB');
 
 app.use(cors());
 
