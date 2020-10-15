@@ -1,17 +1,12 @@
 let mongoose = require('mongoose');
-let account = mongoose.model('Account');
+let puzzle = mongoose.model('Puzzle');
 let securityService = require('../serviceSecurity');
 
-exports.root = (req, res) => {
-    res.send("API is running!");
-}
-
-// Lists all the accounts
-exports.account__listall = (req, res) => {
+exports.puzzle__listall = (req, res) => {
     let apiKey = req.query.apikey;
     securityService.validateApiKey(apiKey, valid => {
         if (valid) {
-            account.find({}, (err, result) => {
+            puzzle.find({}, (err, result) => {
                 if(err) res.send(err);
                 res.json(result);
             });
@@ -21,13 +16,13 @@ exports.account__listall = (req, res) => {
     });
 }
 
-// Creates an account
-exports.account__create = (req, res) => {
+// List all the puzzles
+exports.puzzle__create = (req, res) => {
     let apiKey = req.query.apikey;
     securityService.validateApiKey(apiKey, valid => {
         if (valid) {
-            let newAccount = new account(req.body);
-            newAccount.save((err, result) => {
+            let newPuzzle = new puzzle(req.body);
+            newPuzzle.save((err, result) => {
                 if(err) res.send(err);
                 res.json(result);
             });
@@ -37,13 +32,13 @@ exports.account__create = (req, res) => {
     });
 }
 
-exports.account__update = (req, res) => {
+exports.puzzle_personal_delete = (req, res) => {
     let apiKey = req.query.apikey;
     securityService.validateApiKey(apiKey, valid => {
         if (valid) {
-            account.findOneAndUpdate({_id: req.params.accountid}, req.body, function(err, data) {
+            puzzle.findOneAndDelete({account_id: req.params.accountid, personal_puzzle: req.params.personal}, function(err, data) {
                 if(err) res.send(err);
-                res.send(`_id: ${req.params.accountid} was successfully updated.`);
+                res.send(`Account ID: ${req.params.accountid}\nImage: ${req.params.personal}\nwas successfully deleted.`);
             });
         } else {
             res.json('Invalid API Key.');
@@ -51,13 +46,13 @@ exports.account__update = (req, res) => {
     });
 }
 
-exports.account__delete = (req, res) => {
+exports.puzzle_shared_delete = (req, res) => {
     let apiKey = req.query.apikey;
     securityService.validateApiKey(apiKey, valid => {
         if (valid) {
-            account.findOneAndDelete({_id: req.params.accountid}, function(err, data) {
+            puzzle.findOneAndDelete({account_id: req.params.accountid, shared_puzzle: req.params.shared}, function(err, data) {
                 if(err) res.send(err);
-                res.send(`_id: ${req.params.accountid} was successfully deleted.`);
+                res.send(`Account ID: ${req.params.accountid}\nImage: ${req.params.shared}\nwas successfully deleted.`);
             });
         } else {
             res.json('Invalid API Key.');
