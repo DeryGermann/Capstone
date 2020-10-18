@@ -17,3 +17,21 @@ exports.public__create = (req, res) => {
         }
     });
 }
+
+exports.public_puzzle_delete = (req, res) => {
+    let apiKey = req.query.apikey;
+    let puzzleImage = req.query.image;
+    securityService.validateApiKey(apiKey, valid => {
+        if (valid) {
+            publicPuzzle.findOneAndDelete(
+                {
+                    image: puzzleImage
+                }, function(err, data) {
+                if(err) res.send(err);
+                res.send(`Image: ${personal}\nwas successfully deleted.`);
+            });
+        } else {
+            res.json('Invalid API Key.');
+        }
+    });
+}

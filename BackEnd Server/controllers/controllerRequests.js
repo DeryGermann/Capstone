@@ -17,3 +17,20 @@ exports.request__create = (req, res) => {
         }
     });
 }
+
+exports.requests__delete = (req, res) => {
+    let apiKey = req.query.apikey;
+    securityService.validateApiKey(apiKey, valid => {
+        if (valid) {
+            requests.findOneAndDelete(
+                {
+                    _id: req.params.accountid
+                }, function(err, data) {
+                if(err) res.send(err);
+                res.send(`_id: ${req.params.accountid} was successfully deleted from the requests table.`);
+            });
+        } else {
+            res.json('Invalid API Key.');
+        }
+    });
+}

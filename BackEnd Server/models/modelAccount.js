@@ -24,9 +24,17 @@ let AccountSchema = new mongoose.Schema({
         type: String,
         required: "Enter your email.",
     },
+    password: {
+        type: String,
+        required: "Enter your password."
+    },
     profilePicture: {
         type: String,
         default: profile_base64,
+    },
+    friendsList: {
+        type: Array,
+        default: []
     }
 });
 module.exports = mongoose.model('Account', AccountSchema);

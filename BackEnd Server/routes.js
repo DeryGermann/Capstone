@@ -32,8 +32,10 @@ module.exports = function(app) {
     // Public Table 
     app.route('/public-puzzles')
     .post(publicController.public__create)
+    .delete(publicController.public_puzzle_delete);
 
     // Requests Table 
     app.route('/requests')
-    .post(requestsController.request__create)
+    .post(requestsController.request__create);
+    app.route('/requests/:accountid').post(requestsController.requests__delete);
 }
