@@ -7,12 +7,16 @@ let mongoose = require('mongoose');
 // }
 
 let PublicSchema = new mongoose.Schema({
-    image : {
+    image: {
         type: String,
-        required: "Enter the image as base64"
+        required: "Enter the image as base64."
     },
-    tags : {
+    tags: {
         type: Array,
+    },
+    name: {
+        type: String,
+        default: "N/A"
     }
 });
 module.exports = mongoose.model('Public', PublicSchema);

@@ -34,11 +34,17 @@ exports.puzzle__create = (req, res) => {
 
 exports.puzzle_personal_delete = (req, res) => {
     let apiKey = req.query.apikey;
+    let personal = req.query.image;
     securityService.validateApiKey(apiKey, valid => {
         if (valid) {
-            puzzle.findOneAndDelete({account_id: req.params.accountid, personal_puzzle: req.params.personal}, function(err, data) {
+            puzzle.findOneAndDelete(
+                {
+                    account_id: req.params.accountid, 
+                    "personal_puzzle.image": personal,
+                    "personal_puzzle.name": req.params.name
+                }, function(err, data) {
                 if(err) res.send(err);
-                res.send(`Account ID: ${req.params.accountid}\nImage: ${req.params.personal}\nwas successfully deleted.`);
+                res.send(`Account ID: ${req.params.accountid}\nName: ${req.params.name}\n\nImage: ${personal}\nwas successfully deleted.`);
             });
         } else {
             res.json('Invalid API Key.');
@@ -48,11 +54,17 @@ exports.puzzle_personal_delete = (req, res) => {
 
 exports.puzzle_shared_delete = (req, res) => {
     let apiKey = req.query.apikey;
+    let shared = req.query.image;
     securityService.validateApiKey(apiKey, valid => {
         if (valid) {
-            puzzle.findOneAndDelete({account_id: req.params.accountid, shared_puzzle: req.params.shared}, function(err, data) {
+            puzzle.findOneAndDelete(
+                {
+                    account_id: req.params.accountid, 
+                    "shared_puzzle.image": shared,
+                    "shared_puzzle.name": req.params.name
+                }, function(err, data) {
                 if(err) res.send(err);
-                res.send(`Account ID: ${req.params.accountid}\nImage: ${req.params.shared}\nwas successfully deleted.`);
+                res.send(`Account ID: ${req.params.accountid}\nName: ${req.params.name}\n\nImage: ${shared}\nwas successfully deleted.`);
             });
         } else {
             res.json('Invalid API Key.');

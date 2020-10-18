@@ -6,10 +6,32 @@ let PuzzleSchema = new mongoose.Schema({
         required: "Enter the account's id"
     },
     personal_puzzle: {
-        type: Array
+        name: {
+            type: String,
+            default: undefined
+        },
+        image: {
+            type: String,
+            default: undefined
+        },
+        tags: {
+            type: Array,
+            default: undefined
+        },
     },
     shared_puzzle: {
-        type: Array
+        name: {
+            type: String,
+            default: undefined
+        },
+        image: {
+            type: String,
+            default: undefined
+        },
+        tags: {
+            type: Array,
+            default: undefined
+        },
     }
 });
 module.exports = mongoose.model('Puzzle', PuzzleSchema);

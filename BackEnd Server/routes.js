@@ -26,8 +26,8 @@ module.exports = function(app) {
     app.route('/puzzles')
     .get(puzzleController.puzzle__listall)
     .post(puzzleController.puzzle__create);
-    app.route('/puzzles/:accountid/:personal').delete(puzzleController.puzzle_personal_delete)
-    app.route('/puzzles/:accountid/:shared').delete(puzzleController.puzzle_shared_delete);
+    app.route('/puzzles/:accountid/personal/:name').delete(puzzleController.puzzle_personal_delete)
+    app.route('/puzzles/:accountid/shared/:name').delete(puzzleController.puzzle_shared_delete);
 
     // Public Table 
     app.route('/public-puzzles')
