@@ -15,9 +15,14 @@ let PuzzleSchema = new mongoose.Schema({
             default: undefined
         },
         tags: {
-            type: Array,
+            type: String,
             default: undefined
         },
+        status: {
+            type: String,
+            enum: ['Shared', 'Public', 'Both', 'Personal'],
+            default: 'Personal'
+        }
     },
     shared_puzzle: {
         name: {
@@ -29,7 +34,7 @@ let PuzzleSchema = new mongoose.Schema({
             default: undefined
         },
         tags: {
-            type: Array,
+            type: String,
             default: undefined
         },
     }

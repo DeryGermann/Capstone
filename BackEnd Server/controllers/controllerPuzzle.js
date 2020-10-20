@@ -32,6 +32,24 @@ exports.puzzle__create = (req, res) => {
     });
 }
 
+exports.puzzle__update = (req, res) => {
+    let apiKey = req.query.apikey;
+    securityService.validateApiKey(apiKey, valid => {
+        if (valid) {
+            puzzle.findOneAndUpdate(
+                {
+                    _id: req.params.puzzleid,
+                    account_id: req.params.accountid
+                }, req.body, function(err, data) {
+                if(err) res.send(err);
+                res.send(`account_id: ${req.params.accountid} had its status updated.`);
+            });
+        } else {
+            res.json('Invalid API Key.');
+        }
+    });
+}
+
 exports.puzzle_personal_delete = (req, res) => {
     let apiKey = req.query.apikey;
     let personal = req.query.image;

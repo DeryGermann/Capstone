@@ -1,18 +1,17 @@
 let mongoose = require('mongoose');
 
-// const public = {
-//     "_id" : "the unique public puzzle id",
-//     "image" : "base64 image",
-//     "tags" : ['tags']
-// }
-
 let PublicSchema = new mongoose.Schema({
+    puzzle_id: {
+        type: String,
+        required: "Enter id of the puzzle"
+    },
     image: {
         type: String,
         required: "Enter the image as base64."
     },
     tags: {
-        type: Array,
+        type: String,
+        default: undefined
     },
     name: {
         type: String,

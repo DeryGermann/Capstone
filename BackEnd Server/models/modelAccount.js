@@ -3,14 +3,6 @@ let fs = require('fs');
 
 let profile_base64 = fs.readFileSync('./public/default_profile_pic.png', 'base64');
 
-// const sample = {
-//     account_id: "some crazy id given through mongo",
-//     firstName: "Dery",
-//     lastName: "Germann",
-//     email: "something@gmail.com",
-//     profilePicture: "image as base64"
-// }
-
 let AccountSchema = new mongoose.Schema({
     firstName: {
         type: String,
