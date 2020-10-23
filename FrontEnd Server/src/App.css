@@ -2,23 +2,53 @@ html {
   text-align: center;
 }
 
+a {
+  text-decoration: none;
+}
+
+#go-back-home-button {
+  color: #B34233;
+  font-size: 15pt;
+}
+
 #pageContent {
   display: flex;
   flex-direction: column;
 }
-#overview {
-  flex: 3;
+#content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#brief-overview {
+  background-color: indianred;
+  padding: 50px;
+  width: 50%;
+
+  margin-top: 50px;
+
+  border-radius: 50px;
+}
+#page-header {
+  font-size: 30pt;
+  text-decoration: underline;
+}
+#page-text {
+  font-size: 15pt;
 }
 
 #logo {
   width: 100px;
   height: 50px;
+  background-color: black;
 }
 
 #header {
   display: flex;
   flex-direction: row;
   padding: 10px;
+  background-color: grey;
 }
 #middle-header {
   flex: 3;
@@ -33,9 +63,6 @@ html {
   padding: 15px;
   border-radius: 20px;
 
-  text-decoration: none;
-  text-decoration-line: none;
-
   user-select: none; 
   -webkit-user-select: none; 
   -khtml-user-select: none; 
@@ -48,4 +75,11 @@ html {
 }
 .button:active {
   background-color: #10575f;
+}
+
+#footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: grey;
 }

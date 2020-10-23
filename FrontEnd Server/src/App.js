@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import HomePage from './components/home';
 import SignUpPage from './components/signUp';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     return(
