@@ -2,209 +2,50 @@ html {
   text-align: center;
 }
 
-img {
-  width: 500px;
-  height: 250px;
-  align-self: center;
-}
-
-.contentHolder {
+#pageContent {
   display: flex;
   flex-direction: column;
-  text-align: center;
 }
-.footerContent {
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  justify-content: center;
-}
-.headerContent {
-  display: flex;
-  flex-direction: row;
-}
-.content {
-  margin: 50px;
-  background-color: skyblue;
-  border-radius: 25px;
-  border: 5px solid white;
-  padding-bottom: 15px;
-  color: blanchedalmond;
+#overview {
+  flex: 3;
 }
 
-#headerLogo {
-  height: 100px;
-  width: 300px;
-}
 #logo {
-  height: 50px;
   width: 100px;
-}
-#leftFooterContent, #rightFooterContent {
-  padding-left: 80px;
-  padding-right: 80px;
-}
-#rightHeaderContent {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  padding-left: 45px;
-  padding-top: 15px;
-}
-#root {
-  background-color: lightsteelblue;
-}
-
-button {
-  margin: 10px;
-  font-size: 15pt;
   height: 50px;
-  background-color: salmon;
-  font-weight: bold;
 }
-footer {
-  padding-top: 25px;
-  padding-bottom: 50px;
-  background-color: lightseagreen;
+
+#header {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+}
+#middle-header {
+  flex: 3;
+}
+
+.button {
+  background-color: #4EA2A2;
   color: white;
+  width: 100px;
   font-weight: bold;
-}
-header {
-  background-color: lightseagreen;
-  height: 100px;
-}
-a {
+  font-size: 15pt;
+  padding: 15px;
+  border-radius: 20px;
+
   text-decoration: none;
-  color: white;
+  text-decoration-line: none;
+
+  user-select: none; 
+  -webkit-user-select: none; 
+  -khtml-user-select: none; 
+  -moz-user-select: none; 
+  -ms-user-select: none; 
 }
-p {
-  padding: 20px;
+.button:hover {
+  background-color: #1A8693;
+  cursor: pointer;
 }
-h1 {
-  padding: 20px;
-}
-
-@media screen and (max-width: 1675px) {
-  #headerLogo {
-    width: 200px;
-  }
-  #rightHeaderContent {
-    padding-left: 25px;
-  }
-
-  button {
-    font-size: 12pt;
-  }
-}
-
-@media screen and (max-width: 1355px) {
-  #headerLogo {
-    width: 150px;
-  }
-  #rightHeaderContent {
-    padding-left: 15px;
-  }
-
-  button {
-    font-size: 9pt;
-  }
-  h1 {
-    font-size: 20pt;
-  }
-  h2 {
-    font-size: 15pt;
-  }
-  p {
-    font-size: 12pt;
-  }
-}
-
-@media screen and (max-width: 971px) {
-  #headerLogo {
-    width: 100px;
-  }
-
-  button {
-    font-weight: normal;
-  }
-}
-
-@media screen and (max-width: 971px) {
-  #headerLogo {
-    width: 100px;
-    height: 75px;
-  }
-
-  header {
-    height: 75px;
-  }
-  button {
-    font-weight: normal;
-    margin: 2px;
-    height: 40px;
-  }
-}
-
-@media screen and (max-width: 870px) {
-  #headerLogo {
-    display: none;
-  }
-  #rightHeaderContent {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  button {
-    font-weight: normal;
-    margin: 2px;
-    height: 40px;
-  }
-}
-
-@media screen and (max-width: 870px) {
-  #rightHeaderContent {
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-
-  button {
-    height: 50px;
-  }
-  img {
-    width: 400px;
-    height: 250px;
-  }
-}
-
-@media screen and (max-width: 635px) {
-  #rightHeaderContent {
-    flex-wrap: wrap;
-  }
-
-  header {
-    height: 140px;
-  }
-  img {
-    width: 250px;
-    height: 150px;
-  }
-}
-
-@media screen and (max-width: 489px) {
-  header {
-    height: 195px;
-  }
-}
-
-@media screen and (max-width: 400px) {
-  img {
-    width: 150px;
-    height: 75px;
-  }
-}
-
-@media screen and (max-width: 335px) {
-  header {
-    height: 250px;
-  }
+.button:active {
+  background-color: #10575f;
 }
