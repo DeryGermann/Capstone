@@ -13,7 +13,7 @@ const Header = props => {
                 {props.goBackHome}
             </div>
             <div id='right-header'>
-                <Button redirect={props.redirect} pageName={props.pageName}/>
+                <Button redirect={props.redirect} pageName={props.pageName} />
             </div>
         </>
     )

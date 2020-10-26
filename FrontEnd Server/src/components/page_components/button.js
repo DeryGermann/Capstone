@@ -3,7 +3,7 @@ import React from 'react';
 const Button = props => {
     return(
         <a href={props.redirect}>
-            <div className='button'>
+            <div id={props.id} className='button'>
                 {props.pageName}
             </div>
         </a>

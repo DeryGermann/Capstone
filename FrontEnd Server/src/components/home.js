@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Header from './page_components/header';
 import Footer from './page_components/footer';
 
+import Button from './page_components/button';
+
 class HomePage extends Component {
     constructor(props){
         super(props);
@@ -42,6 +44,10 @@ class HomePage extends Component {
                             lacus. Proin eget viverra felis, nec tempor nisl. 
                             Donec tempor rhoncus euismod.
                         </p>
+                    </div>
+
+                    <div id='home-page-button'>
+                        <Button redirect='public' pageName='Start Browsing Jigsaw Puzzles'/>
                     </div>
                 </div>
                 <div id='footer'>
