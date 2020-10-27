@@ -139,6 +139,46 @@ a {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+
+  justify-content: center;
+  align-items: center;
+}
+#medium-puzzle-view {
+  display: flex;
+  flex-direction: row;
+
+  justify-items: center;
+  align-items: center;
+
+  padding: 15px;
+  border: 2px solid black;
+  margin: 10px;
+}
+#medium-puzzle-view:hover {
+  background-color: #D2BF94;
+  margin-left: 25px;
+  margin-right: 25px;
+}
+#medium-puzzle-view:active {
+  background-color: #A08565;
+}
+#medium-puzzle-view img{
+  width: 150px;
+  height: 115px;
+  border: 1px solid black;
+}
+#puzzle-view {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+}
+/* TODO */
+#sharing-form label {
+  text-align: right;
+  display: inline-block;
+}
+#sharing-form input {
+  text-align: right;
 }
 
 /* MODAL */
@@ -224,7 +264,8 @@ label {
 }
 
 #footer {
-  position: fixed;
+  margin-top: 20px;
+  position: sticky;
   bottom: 0;
   width: 100%;
   background-color: grey;

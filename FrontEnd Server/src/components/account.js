@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Header from './page_components/header';
 import Footer from './page_components/footer';
 
-import SmallPuzzleView from './page_components/puzzle_views/small-puzzle-view';
 import FriendsList from './page_components/friends';
 import UploadModal from './page_components/upload';
+import MediumPuzzleView from './page_components/puzzle_views/medium-puzzle-view';
 
 class AccountPage extends Component {
     constructor(props){
@@ -32,8 +32,13 @@ class AccountPage extends Component {
                 },
             ],
             showUploadModal: false,
-            imagePreview: null
+            imagePreview: null,
+            publicShareStatus: false,
+            friendShareStatus: false,
         }
+
+        this.updatePublicShareSettings = this.updatePublicShareSettings.bind(this);
+        this.updateFriendShareSettings = this.updateFriendShareSettings.bind(this);
     }
 
     componentDidMount = () => {
@@ -49,6 +54,18 @@ class AccountPage extends Component {
             test.image = `./test_images/image${index}.png`;
             test.tags = `#cool #reallycool #supercool`;
             test.title = `Test Image ${index}`;
+            
+            let rand = Math.floor(Math.random() * 4);
+
+            if (rand === 0) {
+                test.share = 'Both';
+            } else if (rand === 1) {
+                test.share = 'Shared';
+            } else if (rand === 2) {
+                test.share = 'Public';
+            } else {
+                test.share = 'Personal';
+            }
 
             test_l.push(test);
         }
@@ -72,6 +89,14 @@ class AccountPage extends Component {
         );
     }
 
+    updatePublicShareSettings = (evt) => {
+
+        // Call method to update database.
+    }
+    updateFriendShareSettings = (evt) => {
+        // Call method to update database.
+    }
+
     render() {
         return (
             <div id='pageContent'>
@@ -89,11 +114,32 @@ class AccountPage extends Component {
                         <div id='account-puzzles'>
                             {
                                 this.state.account_puzzles.map((view, i) => {
-                                    return(<SmallPuzzleView 
+                                    let publicShareStatus = false;
+                                    let friendShareStatus = false;
+
+                                    if (view.share === 'Shared') {
+                                        friendShareStatus = true;
+                                    }
+
+                                    if (view.share === 'Both') {
+                                        friendShareStatus = true;
+                                        publicShareStatus = true;
+                                    }
+
+                                    if (view.share === 'Public') {
+                                        publicShareStatus = true;
+                                    }
+
+                                    return(<MediumPuzzleView 
                                         key={i}
                                         image={view.image}
                                         tags={view.tags}
-                                        title={view.title}/>)
+                                        title={view.title}
+                                        publicallyShared={publicShareStatus}
+                                        friendsShared={friendShareStatus}
+                                        publicChange={evt => this.updatePublicShareSettings(evt)}
+                                        friendChange={evt => this.updateFriendShareSettings(evt)}
+                                        />)
                                 })
                             }
                         </div>

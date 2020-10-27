@@ -12,8 +12,11 @@ class PublicPage extends Component {
         this.state = {
             copyright: 'Copyright Dery Germann 2020',
             gbh: <a href='/' id='go-back-home-button'><p>&#8592; Go Back Home</p></a>,
-            public_info: []
+            public_info: [],
+            searchValue: "",
         }
+
+        this.updateSearchValue = this.updateSearchValue.bind(this);
     }
 
     componentDidMount() {
@@ -36,6 +39,12 @@ class PublicPage extends Component {
         this.setState({public_info: test_l});
     }
 
+    updateSearchValue(evt) {
+        this.setState({searchValue: evt.target.value});
+
+        console.log(this.state.searchValue);
+    }
+
     render() {
         return (
             <div id='pageContent'>
@@ -54,6 +63,12 @@ class PublicPage extends Component {
                         This page contains puzzles that users have chosen to
                         make public for anyone to enjoy!
                     </p>
+
+                    <label htmlFor='searchValue'>Search For Puzzles: </label> 
+                    <input type='text' 
+                    onChange={this.updateSearchValue}
+                    id='searchValue'
+                    name='searchValue'/>
 
                     <div id='public-content-holder'>
                         {
