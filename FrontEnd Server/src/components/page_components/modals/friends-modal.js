@@ -1,7 +1,7 @@
 import React from 'react';
 
-const AuthenticationModal = props => {
-    const showHideClassName = props.show ? "modal display-block" : "modal display-none";
+const FriendsModal = props => {
+    const showHideClassName = props.show ? "friends-modal friends-display-block" : "friends-modal friends-display-none";
   
     return (
         <div className={showHideClassName}>
@@ -9,10 +9,13 @@ const AuthenticationModal = props => {
                 <span className='close-button topright' 
                 onClick={props.handleClose.bind(this)}>&times;</span>
                 
+                <form>
+                    <input type='text' name='name' />
+                </form>
                 
             </section>
         </div>
     );
   };
 
-export default AuthenticationModal;
+export default FriendsModal;

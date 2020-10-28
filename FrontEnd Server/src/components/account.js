@@ -3,8 +3,10 @@ import Header from './page_components/header';
 import Footer from './page_components/footer';
 
 import FriendsList from './page_components/friends';
-import UploadModal from './page_components/upload';
+import UploadModal from './page_components/modals/upload-modal';
 import MediumPuzzleView from './page_components/puzzle_views/medium-puzzle-view';
+import FriendsModal from './page_components/modals/friends-modal';
+import NotifModal from './page_components/modals/notification-modal';
 
 class AccountPage extends Component {
     constructor(props){
@@ -31,14 +33,26 @@ class AccountPage extends Component {
                     name: 'Timothy'
                 },
             ],
+            notification: {
+                incoming: [
+                    'Something',
+                    'Something2'
+                ],
+                outgoing: [
+                    'Something3',
+                    'Something4'
+                ]
+            },
             showUploadModal: false,
+            showFriendModal: false,
+            showNotifModal: false,
             imagePreview: null,
             publicShareStatus: false,
             friendShareStatus: false,
         }
 
-        this.updatePublicShareSettings = this.updatePublicShareSettings.bind(this);
-        this.updateFriendShareSettings = this.updateFriendShareSettings.bind(this);
+        // this.updatePublicShareSettings = this.updatePublicShareSettings.bind(this);
+        // this.updateFriendShareSettings = this.updateFriendShareSettings.bind(this);
     }
 
     componentDidMount = () => {
@@ -76,9 +90,20 @@ class AccountPage extends Component {
     showUploadModal = (evt) => {
         this.setState({showUploadModal: true});
     }
-
     hideUploadModal = (evt) => {
         this.setState({showUploadModal: false})
+    }
+    showFriendModal = (evt) => {
+        this.setState({showFriendModal: true});
+    }
+    hideFriendModal = (evt) => {
+        this.setState({showFriendModal: false})
+    }
+    showNotifModal = (evt) => {
+        this.setState({showNotifModal: true});
+    }
+    hideNotifModal = (evt) => {
+        this.setState({showNotifModal: false})
     }
 
     showImagePreview = (evt) => {
@@ -89,13 +114,16 @@ class AccountPage extends Component {
         );
     }
 
-    updatePublicShareSettings = (evt) => {
+    // updatePublicShareSettings = (evt) => {
+    //     console.log(evt.target);
 
-        // Call method to update database.
-    }
-    updateFriendShareSettings = (evt) => {
-        // Call method to update database.
-    }
+    //     // Call method to update database.
+    // }
+    // updateFriendShareSettings = (evt) => {
+    //     console.log(evt.target);
+
+    //     // Call method to update database.
+    // }
 
     render() {
         return (
@@ -110,7 +138,22 @@ class AccountPage extends Component {
                 <div id='content'>
 
                     <div id='account-content-holder'>
-                        <FriendsList friends={this.state.account_friends}/>
+                        <div id='friends-list'>
+                            <h4>Friends List</h4>
+                            <NotifModal show={this.state.showNotifModal} 
+                            handleClose={ evt => this.hideNotifModal(evt) }
+                            notifs={this.state.notification}/>
+                            <div id='notif' onClick={evt => this.showNotifModal(evt)}>2</div>
+
+                            <FriendsList friends={this.state.account_friends}
+                            notifications={12}/>
+
+                            <FriendsModal show={this.state.showFriendModal} 
+                            handleClose={ evt => this.hideFriendModal(evt) }/>
+                            <div className='button' id='friends-button' onClick={evt => this.showFriendModal(evt)}>
+                                    Search For More Friends
+                            </div>
+                        </div>
                         <div id='account-puzzles'>
                             {
                                 this.state.account_puzzles.map((view, i) => {
@@ -136,10 +179,7 @@ class AccountPage extends Component {
                                         tags={view.tags}
                                         title={view.title}
                                         publicallyShared={publicShareStatus}
-                                        friendsShared={friendShareStatus}
-                                        publicChange={evt => this.updatePublicShareSettings(evt)}
-                                        friendChange={evt => this.updateFriendShareSettings(evt)}
-                                        />)
+                                        friendsShared={friendShareStatus}/>)
                                 })
                             }
                         </div>

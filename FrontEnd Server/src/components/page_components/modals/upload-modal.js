@@ -1,7 +1,7 @@
 import React from 'react';
 
 const UploadModal = props => {
-    const showHideClassName = props.show ? "modal display-block" : "modal display-none";
+    const showHideClassName = props.show ? "upload-modal upload-display-block" : "upload-modal upload-display-none";
   
     return (
         <div className={showHideClassName}>

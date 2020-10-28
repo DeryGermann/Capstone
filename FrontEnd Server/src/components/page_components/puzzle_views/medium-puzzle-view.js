@@ -2,13 +2,11 @@ import React from 'react';
 
 const MediumPuzzleView = props => {
 
-    let publicShareButton= <input type='checkbox' id='publicShare' 
-    name='publicShare' value='Public' checked={props.publicallyShared}
-    onChange={props.publicChange.bind(this)}/>
+    let publicShareButton = <input type='checkbox' id='publicShare' 
+    name='publicShare' value='Public' defaultChecked={props.publicallyShared}/>
 
-    let friendShareButton= <input type='checkbox' id='friendShare' 
-    name='friendShare' value='Shared' checked={props.friendsShared}
-    onChange={props.friendChange.bind(this)}/>
+    let friendShareButton = <input type='checkbox' id='friendShare' 
+    name='friendShare' value='Shared' defaultChecked={props.friendsShared}/>
 
     return(
         <div id='medium-puzzle-view'>
@@ -22,12 +20,25 @@ const MediumPuzzleView = props => {
                 </h2>
             </div>
             <div id='sharing-view'>
-                <label htmlFor='publicShare'>Share w/ the Public</label>
-                { publicShareButton }
-                <br />
-                <label htmlFor='friendShare'>Share w/ Your Friends</label>
-                { friendShareButton }
-                <br />
+                <form id='sharing-form'>
+
+                    <input readOnly type='image' name='image' value='' src={props.image}
+                    alt='Missing'
+                    style={{display:'none'}}/>
+                    <input readOnly type='text' name='title' value={props.title}
+                    style={{display:'none'}}/>
+                    <input readOnly type='text' name='tags' value={props.tags}
+                    style={{display:'none'}}/>
+
+                    <label htmlFor='publicShare'>Share w/ the Public</label>
+                    { publicShareButton }
+                    <br />
+                    <label htmlFor='friendShare'>Share w/ Your Friends</label>
+                    { friendShareButton }
+                    <br />
+
+                    <input type='submit' value='Update Share Settings'/>
+                </form>
             </div>
         </div>
     );
