@@ -30,14 +30,14 @@ const MediumPuzzleView = props => {
                     <input readOnly type='text' name='tags' value={props.tags}
                     style={{display:'none'}}/>
 
-                    <label htmlFor='publicShare'>Share w/ the Public</label>
+                    <label htmlFor='publicShare'>public</label>
                     { publicShareButton }
                     <br />
-                    <label htmlFor='friendShare'>Share w/ Your Friends</label>
+                    <label htmlFor='friendShare'>friends</label>
                     { friendShareButton }
                     <br />
 
-                    <input type='submit' value='Update Share Settings'/>
+                    <input type='submit' value='Update Share Settings' id='update-share'/>
                 </form>
             </div>
         </div>
