@@ -16,10 +16,6 @@ let AccountSchema = new mongoose.Schema({
         type: String,
         required: "Enter your email.",
     },
-    password: {
-        type: String,
-        required: "Enter your password."
-    },
     profilePicture: {
         type: String,
         default: profile_base64,
