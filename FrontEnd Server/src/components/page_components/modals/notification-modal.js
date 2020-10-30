@@ -9,7 +9,7 @@ const NotifModal = props => {
                 <span className='close-button topright' 
                 onClick={props.handleClose.bind(this)}>&times;</span>
                 
-                <h4>Incoming Requests</h4>
+                <h4>Friend Requests</h4>
                 <div id='incoming-req'>
                     {
                         props.notifs.incoming.map((name, i) => {
@@ -24,14 +24,13 @@ const NotifModal = props => {
                     }
                 </div>
 
-                <h4>Outgoing Requests</h4>
+                <h4>Sent Friend Requests</h4>
                 <div id='outgoing-req'>
                     {
                         props.notifs.outgoing.map((name, i) => {
                             return(
                                 <div key={i} className='req'>
                                     <p className='name'>{name}</p>
-                                    <span>&#x2713;</span>
                                     <span>&times;</span>
                                 </div>
                             )

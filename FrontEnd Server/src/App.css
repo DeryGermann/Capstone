@@ -2,13 +2,20 @@ html {
   text-align: center;
 }
 
+body {
+  font-family: 'Raleway', sans-serif;
+}
+
 a {
   text-decoration: none;
 }
 
 #go-back-home-button {
-  color: #B34233;
+  color: white;
   font-size: 15pt;
+}
+#go-back-home-button:hover {
+  border-bottom: 2px solid white;
 }
 
 #pageContent {
@@ -48,14 +55,28 @@ a {
   display: flex;
   flex-direction: row;
   padding: 10px;
-  background-color: grey;
+
+  background-color: #751A33;
+
+  border-bottom: 2px solid black;
 }
 #middle-header {
   flex: 3;
 }
+#right-header a div {
+  border: 2px solid black;
+
+  background-color: transparent;
+}
+#right-header a div:hover {
+  background-color: rgb(41, 41, 41);
+}
+#right-header a div:active {
+  background-color: rgb(78, 78, 78);
+}
 
 .button {
-  background-color: #4EA2A2;
+  background-color: #751A33;
   color: white;
   font-weight: bold;
   font-size: 15pt;
@@ -69,11 +90,11 @@ a {
   -ms-user-select: none; 
 }
 .button:hover {
-  background-color: #1A8693;
+  background-color: #B34233;
   cursor: pointer;
 }
 .button:active {
-  background-color: #10575f;
+  background-color: #581326;
 }
 #important_button {
   background-color: #B34233;
@@ -104,15 +125,23 @@ a {
 
   margin: 10px;
   padding: 10px;
-  border: 1px solid black;
+  
+  box-shadow: 0 4px 8px 0 
+  rgba(0, 0, 0, 0.5), 
+  0 6px 20px 0 
+  rgba(0, 0, 0, 0.5);
 }
 #small-puzzle-view:hover {
-  background-color: #D2BF94;
-  margin-left: 25px;
-  margin-right: 25px;
+  box-shadow: 0 4px 8px 0 
+  rgba(117, 26, 51, 0.5), 
+  0 6px 20px 0 
+  rgba(117, 26, 51, 0.5);
 }
 #small-puzzle-view:active {
-  background-color: #A08565;
+  box-shadow: 0 4px 8px 0 
+  rgba(117, 26, 51, 0.2), 
+  0 6px 20px 0 
+  rgba(117, 26, 51, 0.2);
 }
 #small-puzzle-view img{
   width: 150px;
@@ -131,14 +160,24 @@ a {
   align-items: center;
 }
 #notif {
-  text-decoration: underline;
   cursor: pointer;
+  font-size: 24pt;
+  margin-left: 10px;
+  padding: 5px;
+
+  border-bottom: 2px solid #751A33;
+}
+#notif:hover {
+  background-color: #751A33;
+  color: white;
 }
 #incoming-req, #outgoing-req {
   display: flex;
   flex-direction: column;
 
   border: 2px solid black;
+  border-radius: 15px 50px;
+
   padding: 15px;
 }
 #incoming-req {
@@ -150,10 +189,21 @@ a {
 
   justify-content: space-evenly;
   align-items: center;
+
+  border-radius: 15px 35px;
+
+  padding-left: 10px;
+  padding-right: 10px;
+
+  font-size: 15pt;
 }
 .req:hover {
   background-color: #751A33;
   color: white;
+}
+.req span:hover {
+  cursor: pointer;
+  border-bottom: 2px solid white;
 }
 .name {
   font-size: 15pt;
@@ -162,7 +212,10 @@ a {
 #friends-list {
   width: 75%;
   margin: 30px;
+  
   border: 2px solid black;
+  border-radius: 50px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -192,19 +245,35 @@ h4 {
   align-items: center;
 
   padding: 15px;
-  border: 2px solid black;
   margin: 10px;
+
+  box-shadow: 0 4px 8px 0 
+  rgba(0, 0, 0, 0.5), 
+  0 6px 20px 0 
+  rgba(0, 0, 0, 0.5);
 }
 #medium-puzzle-view:hover {
-  background-color: #D2BF94;
+  box-shadow: 0 4px 8px 0 
+  rgba(117, 26, 51, 0.5), 
+  0 6px 20px 0 
+  rgba(117, 26, 51, 0.5);
 }
 #medium-puzzle-view:active {
-  background-color: #A08565;
+  box-shadow: 0 4px 8px 0 
+  rgba(117, 26, 51, 0.2), 
+  0 6px 20px 0 
+  rgba(117, 26, 51, 0.2);
 }
 #medium-puzzle-view img{
   width: 150px;
   height: 115px;
   border: 1px solid black;
+}
+#publicShare, #friendShare {
+  font-size: 50pt;
+}
+#friendShare {
+  margin-top: 15px;
 }
 #puzzle-view {
   display: flex;
@@ -213,11 +282,43 @@ h4 {
 }
 /* TODO */
 #sharing-form label {
-  text-align: right;
+  text-align: left;
   display: inline-block;
+
+  font-size: 14pt;
 }
 #sharing-form input {
-  text-align: right;
+  text-align: left;
+  cursor: pointer;
+}
+#update-share {
+  background: none;
+  color: inherit;
+  margin-top: 10px;
+  padding: 5px;
+  font: inherit;
+  cursor: pointer;
+  outline: none;
+
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  border-bottom: 2px solid #751A33;
+}
+#update-share:hover {
+  background-color: #751A33;
+  color: white;
+}
+#notif-title {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: inherit;
+
+  border-bottom: 2px solid black;
 }
 
 /* MODAL */
@@ -264,7 +365,7 @@ h4 {
 .upload-display-none {
   display: none;
 }
-.friends-display-block {
+.friendsdisplay-block {
   display: block;
 }
 .friends-display-none {
@@ -335,5 +436,9 @@ label {
   position: sticky;
   bottom: 0;
   width: 100%;
-  background-color: grey;
+  
+  background-color: #751A33;
+  color: white;
+
+  border-top: 2px solid black;
 }

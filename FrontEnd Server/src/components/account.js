@@ -46,7 +46,7 @@ class AccountPage extends Component {
             showUploadModal: false,
             showFriendModal: false,
             showNotifModal: false,
-            imagePreview: null,
+            imagePreview: 'placeholder_image.png',
             publicShareStatus: false,
             friendShareStatus: false,
         }
@@ -139,17 +139,21 @@ class AccountPage extends Component {
 
                     <div id='account-content-holder'>
                         <div id='friends-list'>
-                            <h4>Friends List</h4>
-                            <NotifModal show={this.state.showNotifModal} 
-                            handleClose={ evt => this.hideNotifModal(evt) }
-                            notifs={this.state.notification}/>
-                            <div id='notif' onClick={evt => this.showNotifModal(evt)}>2</div>
+                            <div id='notif-title'>
+                                <h4>Friends List</h4>
+                                <NotifModal show={this.state.showNotifModal} 
+                                handleClose={ evt => this.hideNotifModal(evt) }
+                                notifs={this.state.notification}/>
+                                <div id='notif' onClick={evt => this.showNotifModal(evt)}>2</div>
+                            </div>
 
-                            <FriendsList friends={this.state.account_friends}
-                            notifications={12}/>
+                            <div>
+                                <FriendsList friends={this.state.account_friends}
+                                notifications={12}/>
 
-                            <FriendsModal show={this.state.showFriendModal} 
-                            handleClose={ evt => this.hideFriendModal(evt) }/>
+                                <FriendsModal show={this.state.showFriendModal} 
+                                handleClose={ evt => this.hideFriendModal(evt) }/>
+                            </div>
                             <div className='button' id='friends-button' onClick={evt => this.showFriendModal(evt)}>
                                     Search For More Friends
                             </div>
@@ -189,7 +193,7 @@ class AccountPage extends Component {
                     handleClose={ evt => this.hideUploadModal(evt) }
                     image={this.state.imagePreview}
                     handlePreviewImage={ evt => this.showImagePreview(evt) }/>
-                    <div className='button' onClick={evt => this.showUploadModal(evt)}>
+                    <div style={{marginTop: '10px'}} className='button' onClick={evt => this.showUploadModal(evt)}>
                             Click to Create a New Puzzle
                     </div>
                 </div>
