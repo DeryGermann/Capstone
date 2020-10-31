@@ -433,7 +433,7 @@ label {
 
 #footer {
   margin-top: 20px;
-  position: sticky;
+  position: fixed;
   bottom: 0;
   width: 100%;
   

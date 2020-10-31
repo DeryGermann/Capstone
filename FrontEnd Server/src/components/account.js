@@ -16,32 +16,10 @@ class AccountPage extends Component {
             copyright: 'Copyright Dery Germann 2020',
             gbh: <a href='public' id='go-back-home-button'><p>&#8592; Go Back To Public Page</p></a>,
             account_puzzles: [],
-            account_friends: [
-                {
-                    name: 'Jim'
-                },
-                {
-                    name: 'Bob'
-                },
-                {
-                    name: 'Billy'
-                },
-                {
-                    name: 'Jimbo'
-                },
-                {
-                    name: 'Timothy'
-                },
-            ],
-            notification: {
-                incoming: [
-                    'Something',
-                    'Something2'
-                ],
-                outgoing: [
-                    'Something3',
-                    'Something4'
-                ]
+            account_friends: [],
+            notifications: {
+                incoming: [],
+                outgoing: []
             },
             showUploadModal: false,
             showFriendModal: false,
@@ -53,11 +31,64 @@ class AccountPage extends Component {
 
         // this.updatePublicShareSettings = this.updatePublicShareSettings.bind(this);
         // this.updateFriendShareSettings = this.updateFriendShareSettings.bind(this);
+
+        this.getAccountData = this.getAccountData.bind(this);
     }
 
     componentDidMount = () => {
         // Will Read from the API and populate a variable
-        this.test_populate();
+        this.getAccountData();
+
+        // this.test_populate();
+    }
+
+    async getAccountData() {
+        let check = {};
+
+        await fetch('http://localhost:3001/getdata?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495', {
+            method: "GET",
+        })
+        .then(res => res.json())
+        .then(result => check = result);
+
+        if (check.accounts.length !== 0) {
+            this.populateVaraiables(check);
+        }
+    }
+    populateVaraiables(data) {
+        let notif = {
+            incoming: [],
+            outgoing: []
+        };
+
+        // Gets all the friends
+        data.accounts[1].friendsList.forEach(friend => {
+            fetch(`http://localhost:3001/accounts/${friend}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
+                method: "GET"
+            })
+            .then(res => res.json())
+            .then(result => this.setState({
+                ...this.state,
+                account_friends : [...this.state.account_friends, [`${result[0].firstName} ${result[0].lastName}`]]}));
+        });
+
+        // Gets all the names for the notifications
+        data.accounts[1].requests.incoming.forEach(async id => {
+            await fetch(`http://localhost:3001/accounts/${id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
+                method: "GET"
+            })
+            .then(res => res.json())
+            .then(result => notif.incoming.push(`${result[0].firstName} ${result[0].lastName}`));
+        });
+        data.accounts[1].requests.outgoing.forEach(async id => {
+            await fetch(`http://localhost:3001/accounts/${id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
+                method: "GET"
+            })
+            .then(res => res.json())
+            .then(result => notif.outgoing.push(`${result[0].firstName} ${result[0].lastName}`));
+            
+            this.setState({notifications: notif});
+        });
     }
 
     test_populate = () => {
@@ -126,6 +157,13 @@ class AccountPage extends Component {
     // }
 
     render() {
+        console.log(this.state.notifications.incoming.length)
+        let notification = 0;
+        
+        if (this.state.notifications.incoming && this.state.notifications.incoming.length) {
+            notification = this.state.notifications.incoming.length;
+        }
+
         return (
             <div id='pageContent'>
                 <div id='header'>
@@ -143,8 +181,10 @@ class AccountPage extends Component {
                                 <h4>Friends List</h4>
                                 <NotifModal show={this.state.showNotifModal} 
                                 handleClose={ evt => this.hideNotifModal(evt) }
-                                notifs={this.state.notification}/>
-                                <div id='notif' onClick={evt => this.showNotifModal(evt)}>2</div>
+                                notifs={this.state.notifications}/>
+                                <div id='notif' onClick={evt => this.showNotifModal(evt)}>
+                                    {notification}
+                                </div>
                             </div>
 
                             <div>

@@ -12,11 +12,11 @@ module.exports = function(app) {
 
     // Account Table 
     app.route('/').get(accountController.root);
-    app.route('/accounts')
-    // Lists all accounts
-    .get(accountController.account__listall)
     // Creates new account
-    .post(accountController.account__create);
+    app.route('/accounts').post(accountController.account__create);
+    app.route('/accounts/:accountid')
+    // Lists all accounts
+    .get(accountController.account__get)
     // Update account using account _id
     app.route('/accounts/:accountid').put(accountController.account__update);
     // Delete accout using account _id

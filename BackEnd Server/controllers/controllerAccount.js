@@ -7,11 +7,11 @@ exports.root = (req, res) => {
 }
 
 // Lists all the accounts
-exports.account__listall = (req, res) => {
+exports.account__get = (req, res) => {
     let apiKey = req.query.apikey;
     securityService.validateApiKey(apiKey, valid => {
         if (valid) {
-            account.find({}, (err, result) => {
+            account.find({_id: req.params.accountid}, req.body, (err, result) => {
                 if(err) res.send(err);
                 res.json(result);
             });
@@ -41,7 +41,7 @@ exports.account__update = (req, res) => {
     let apiKey = req.query.apikey;
     securityService.validateApiKey(apiKey, valid => {
         if (valid) {
-            account.findOneAndUpdate({_id: req.params.accountid}, req.body, function(err, data) {
+            account.findOneAndUpdate({_id: req.params.accountid}, req.body, (err, data) => {
                 if(err) res.send(err);
                 res.send(`_id: ${req.params.accountid} was successfully updated.`);
             });
