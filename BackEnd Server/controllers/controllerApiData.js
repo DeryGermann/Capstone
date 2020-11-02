@@ -7,41 +7,36 @@ let puzzleModel = require('../models/modelPuzzle');
 let requestsModel = require('../models/modelRequests');
 
 let accountData = [];
+// Gets all the data from the database
+// Gets ACCOUNT data from database
+accountModel.find({}, (err, result) => {
+    if(err) res.send(err);
+    // accountData = [];
+    accountData = accountData.concat(result);
+});
 let publicData = [];
+// Gets PUBLIC data from database
+publicModel.find({}, (err, result) => {
+    if(err) res.send(err);
+    // publicData = [];
+    publicData = publicData.concat(result);
+});
 let puzzleData = [];
+// Gets PUZZLE data from database
+puzzleModel.find({}, (err, result) => {
+    if(err) res.send(err);
+    // puzzleData = [];
+    puzzleData = puzzleData.concat(result);
+});
 let requestsData = [];
+// Gets REQUESTS data from database
+requestsModel.find({}, (err, result) => {
+    if(err) res.send(err);
+    // requestsData = [];
+    requestsData = requestsData.concat(result);
+});
 
 let completeApi = [];
-
-const getData = () => {
-    // Gets ACCOUNT data from database
-    accountModel.find({}, (err, result) => {
-        if(err) res.send(err);
-        accountData = [];
-        accountData = accountData.concat(result);
-    });
-
-    // Gets PUBLIC data from database
-    publicModel.find({}, (err, result) => {
-        if(err) res.send(err);
-        publicData = [];
-        publicData = publicData.concat(result);
-    });
-
-    // Gets PUZZLE data from database
-    puzzleModel.find({}, (err, result) => {
-        if(err) res.send(err);
-        puzzleData = [];
-        puzzleData = puzzleData.concat(result);
-    });
-
-    // Gets REQUESTS data from database
-    requestsModel.find({}, (err, result) => {
-        if(err) res.send(err);
-        requestsData = [];
-        requestsData = requestsData.concat(result);
-    });
-}
 
 const addPuzzlesToAccounts = () => {
     completeApi = {
@@ -121,8 +116,6 @@ exports.create_API = (req, res) => {
     let apiKey = req.query.apikey;
     securityService.validateApiKey(apiKey, valid => {
         if (valid) {
-            // Gets all the data from the database
-            getData();
 
             // Add PUZZLES to associated ACCOUNTS
             addPuzzlesToAccounts();
