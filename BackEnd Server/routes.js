@@ -12,6 +12,7 @@ module.exports = function(app) {
 
     // Account Table 
     app.route('/').get(accountController.root);
+    app.route('/accounts/listall').get(accountController.account__listall);
     // Creates new account
     app.route('/accounts').post(accountController.account__create);
     app.route('/accounts/:accountid')

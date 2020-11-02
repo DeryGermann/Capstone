@@ -82,9 +82,9 @@ const addPuzzlesToAccounts = () => {
             }
         });
         
-        // Creates the "puzzle" key and assigned the value of the account's 
+        // Creates the "puzzles" key and assigned the value of the account's 
         // puzzles to that key.
-        object_holder.puzzle = puzzles_holder;
+        object_holder.puzzles = puzzles_holder;
 
         // Adds each ACCOUNT to the complete API list
         completeApi.accounts.push(object_holder);

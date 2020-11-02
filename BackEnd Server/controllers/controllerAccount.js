@@ -6,7 +6,22 @@ exports.root = (req, res) => {
     res.send("API is running!");
 }
 
-// Lists all the accounts
+// Lists all the users
+exports.account__listall = (req, res) => {
+    let apiKey = req.query.apikey;
+    securityService.validateApiKey(apiKey, valid => {
+        if (valid) {
+            account.find({}, (err, result) => {
+                if(err) res.send(err);
+                res.json(result);
+            });
+        } else {
+            res.send('Invalid API Key.');
+        }
+    });
+}
+
+// Return specific account
 exports.account__get = (req, res) => {
     let apiKey = req.query.apikey;
     securityService.validateApiKey(apiKey, valid => {

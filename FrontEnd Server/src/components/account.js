@@ -49,7 +49,8 @@ class AccountPage extends Component {
             method: "GET",
         })
         .then(res => res.json())
-        .then(result => check = result);
+        .then(result => check = result)
+        .catch(e => console.log(e));
 
         if (check.accounts.length !== 0) {
             this.populateVaraiables(check);
@@ -60,6 +61,9 @@ class AccountPage extends Component {
             incoming: [],
             outgoing: []
         };
+
+        // Gets all the puzzles
+        this.setState({ account_puzzles : data.accounts[1].puzzles });
 
         // Gets all the friends
         data.accounts[1].friendsList.forEach(friend => {
@@ -103,13 +107,13 @@ class AccountPage extends Component {
             let rand = Math.floor(Math.random() * 4);
 
             if (rand === 0) {
-                test.share = 'Both';
+                test.status = 'Both';
             } else if (rand === 1) {
-                test.share = 'Shared';
+                test.status = 'Shared';
             } else if (rand === 2) {
-                test.share = 'Public';
+                test.status = 'Public';
             } else {
-                test.share = 'Personal';
+                test.status = 'Personal';
             }
 
             test_l.push(test);
@@ -157,7 +161,6 @@ class AccountPage extends Component {
     // }
 
     render() {
-        console.log(this.state.notifications.incoming.length)
         let notification = 0;
         
         if (this.state.notifications.incoming && this.state.notifications.incoming.length) {
@@ -201,20 +204,26 @@ class AccountPage extends Component {
                         <div id='account-puzzles'>
                             {
                                 this.state.account_puzzles.map((view, i) => {
+                                    let neither = false;
                                     let publicShareStatus = false;
                                     let friendShareStatus = false;
 
-                                    if (view.share === 'Shared') {
-                                        friendShareStatus = true;
-                                    }
-
-                                    if (view.share === 'Both') {
-                                        friendShareStatus = true;
-                                        publicShareStatus = true;
-                                    }
-
-                                    if (view.share === 'Public') {
-                                        publicShareStatus = true;
+                                    if (view.hasOwnProperty("status")) {
+    
+                                        if (view.status === 'Shared') {
+                                            friendShareStatus = true;
+                                        }
+    
+                                        if (view.status === 'Both') {
+                                            friendShareStatus = true;
+                                            publicShareStatus = true;
+                                        }
+    
+                                        if (view.status === 'Public') {
+                                            publicShareStatus = true;
+                                        }
+                                    } else {
+                                        neither = true;
                                     }
 
                                     return(<MediumPuzzleView 
@@ -223,7 +232,8 @@ class AccountPage extends Component {
                                         tags={view.tags}
                                         title={view.title}
                                         publicallyShared={publicShareStatus}
-                                        friendsShared={friendShareStatus}/>)
+                                        friendsShared={friendShareStatus}
+                                        neither={neither}/>)
                                 })
                             }
                         </div>

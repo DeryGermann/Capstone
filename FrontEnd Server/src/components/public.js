@@ -15,13 +15,17 @@ class PublicPage extends Component {
             public_info: [],
             searchValue: "",
         }
+        
+        
 
         this.updateSearchValue = this.updateSearchValue.bind(this);
     }
 
     componentDidMount() {
         // Will Read from the API and populate a variable
-        this.test_populate();
+        this.getPublicData();
+        
+        // this.test_populate();
     }
 
     test_populate() {
@@ -37,6 +41,15 @@ class PublicPage extends Component {
         }
 
         this.setState({public_info: test_l});
+    }
+
+    getPublicData() {
+        fetch('http://localhost:3001/getdata?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495', {
+            method: "GET",
+        })
+        .then(res => res.json())
+        .then(result => this.setState({public_info : result.public}))
+        .catch(e => console.log(e));
     }
 
     updateSearchValue(evt) {
@@ -75,9 +88,10 @@ class PublicPage extends Component {
                             this.state.public_info.map((view, i) => {
                                 return(<SmallPuzzleView 
                                     key={i}
+                                    puzzleId={view.puzzle_id}
                                     image={view.image}
                                     tags={view.tags}
-                                    title={view.title}/>)
+                                    name={view.name}/>)
                             })
                         }
                     </div>

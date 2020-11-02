@@ -309,6 +309,24 @@ h4 {
   background-color: #751A33;
   color: white;
 }
+#update-share-disabled {
+  background: none;
+  color: inherit;
+  margin-top: 10px;
+  padding: 5px;
+  font: inherit;
+  cursor: pointer;
+  outline: none;
+
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  border-bottom: 2px solid grey;
+}
+#update-share-disabled:hover {
+  background-color: grey;
+  color: white;
+}
 #notif-title {
   display: flex;
 

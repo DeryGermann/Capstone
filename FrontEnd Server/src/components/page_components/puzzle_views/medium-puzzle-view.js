@@ -1,47 +1,73 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const MediumPuzzleView = props => {
+class MediumPuzzleView extends Component {
+    constructor(props) {
+        super(props);
+    }
 
-    let publicShareButton = <input type='checkbox' id='publicShare' 
-    name='publicShare' value='Public' defaultChecked={props.publicallyShared}/>
+    render() {
+        let publicShareButton;
+        let friendShareButton;
+        let sharedMessage;
+        let submitButton;
 
-    let friendShareButton = <input type='checkbox' id='friendShare' 
-    name='friendShare' value='Shared' defaultChecked={props.friendsShared}/>
+        if (this.props.neither) {
+            sharedMessage = <p><strong>This is a shared puzzle.</strong></p>
 
-    return(
-        <div id='medium-puzzle-view'>
-            <div id='puzzle-view'>
-                <img src={props.image} alt='Link is Broken'/>
-                <span className='tag_holder'>
-                    {props.tags}
-                </span>
-                <h2 className='small-puzzle-view title'>
-                    {props.title}
-                </h2>
+            publicShareButton = <input disabled type='checkbox' id='publicShare' 
+            name='publicShare' value='Public' defaultChecked={this.props.publicallyShared}/>
+        
+            friendShareButton = <input disabled type='checkbox' id='friendShare' 
+            name='friendShare' value='Shared' defaultChecked={this.props.friendsShared}/>
+
+            submitButton = <input disabled type='submit' value='Update Share Settings' id='update-share-disabled'/>
+        } else {
+            publicShareButton = <input type='checkbox' id='publicShare' 
+            name='publicShare' value='Public' defaultChecked={this.props.publicallyShared}/>
+        
+            friendShareButton = <input type='checkbox' id='friendShare' 
+            name='friendShare' value='Shared' defaultChecked={this.props.friendsShared}/>
+
+            submitButton = <input type='submit' value='Update Share Settings' id='update-share'/>
+        }
+
+
+        return(
+            <div id='medium-puzzle-view'>
+                <div id='puzzle-view'>
+                    <img src={`data:image/png;base64,${this.props.image}`} alt='Link is Broken'/>
+                    <span className='tag_holder'>
+                        {this.props.tags}
+                    </span>
+                    <h2 className='small-puzzle-view title'>
+                        {this.props.title}
+                    </h2>
+                </div>
+                <div id='sharing-view'>
+                    <form id='sharing-form'>
+    
+                        <input readOnly type='image' name='image' value='' src={this.props.image}
+                        alt='Missing'
+                        style={{display:'none'}}/>
+                        <input readOnly type='text' name='title' value={this.props.title}
+                        style={{display:'none'}}/>
+                        <input readOnly type='text' name='tags' value={this.props.tags}
+                        style={{display:'none'}}/>
+
+                        { sharedMessage }
+                        <label htmlFor='publicShare'>public</label>
+                        { publicShareButton }
+                        <br />
+                        <label htmlFor='friendShare'>friends</label>
+                        { friendShareButton }
+                        <br />
+    
+                        { submitButton }
+                    </form>
+                </div>
             </div>
-            <div id='sharing-view'>
-                <form id='sharing-form'>
-
-                    <input readOnly type='image' name='image' value='' src={props.image}
-                    alt='Missing'
-                    style={{display:'none'}}/>
-                    <input readOnly type='text' name='title' value={props.title}
-                    style={{display:'none'}}/>
-                    <input readOnly type='text' name='tags' value={props.tags}
-                    style={{display:'none'}}/>
-
-                    <label htmlFor='publicShare'>public</label>
-                    { publicShareButton }
-                    <br />
-                    <label htmlFor='friendShare'>friends</label>
-                    { friendShareButton }
-                    <br />
-
-                    <input type='submit' value='Update Share Settings' id='update-share'/>
-                </form>
-            </div>
-        </div>
-    );
+        );
+    }
 }
 
 export default MediumPuzzleView;
