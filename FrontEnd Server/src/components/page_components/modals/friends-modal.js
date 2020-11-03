@@ -44,8 +44,8 @@ class FriendsModal extends Component {
                     <span className='close-button topright' 
                     onClick={this.props.handleClose.bind(this)}>&times;</span>
                     
-                    <label htmlFor='name'>Search For a User </label>
-                    <input type='text' name='name' id='name'
+                    <label htmlFor='searchName'>Search For a User </label>
+                    <input type='text' name='name' id='searchName'
                     onChange={ this.filterSearchResults }
                     value={ this.state.searchName }/>
 

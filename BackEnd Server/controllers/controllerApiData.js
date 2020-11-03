@@ -11,28 +11,28 @@ let accountData = [];
 // Gets ACCOUNT data from database
 accountModel.find({}, (err, result) => {
     if(err) res.send(err);
-    // accountData = [];
+    accountData = [];
     accountData = accountData.concat(result);
 });
 let publicData = [];
 // Gets PUBLIC data from database
 publicModel.find({}, (err, result) => {
     if(err) res.send(err);
-    // publicData = [];
+    publicData = [];
     publicData = publicData.concat(result);
 });
 let puzzleData = [];
 // Gets PUZZLE data from database
 puzzleModel.find({}, (err, result) => {
     if(err) res.send(err);
-    // puzzleData = [];
+    puzzleData = [];
     puzzleData = puzzleData.concat(result);
 });
 let requestsData = [];
 // Gets REQUESTS data from database
 requestsModel.find({}, (err, result) => {
     if(err) res.send(err);
-    // requestsData = [];
+    requestsData = [];
     requestsData = requestsData.concat(result);
 });
 

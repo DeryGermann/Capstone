@@ -21,10 +21,10 @@ class AccountPage extends Component {
                 incoming: [],
                 outgoing: []
             },
+            account_id: "",
             showUploadModal: false,
             showFriendModal: false,
             showNotifModal: false,
-            imagePreview: 'placeholder_image.png',
             publicShareStatus: false,
             friendShareStatus: false,
         }
@@ -33,6 +33,7 @@ class AccountPage extends Component {
         // this.updateFriendShareSettings = this.updateFriendShareSettings.bind(this);
 
         this.getAccountData = this.getAccountData.bind(this);
+        this.populateVaraiables = this.populateVaraiables.bind(this);
     }
 
     componentDidMount = () => {
@@ -49,12 +50,12 @@ class AccountPage extends Component {
             method: "GET",
         })
         .then(res => res.json())
-        .then(result => check = result)
+        .then(result => this.setState({ account_id: result.accounts[1]._id }, () => {
+            check = result;
+            console.log(check);
+            this.populateVaraiables(check)
+        }))
         .catch(e => console.log(e));
-
-        if (check.accounts.length !== 0) {
-            this.populateVaraiables(check);
-        }
     }
     populateVaraiables(data) {
         let notif = {
@@ -62,12 +63,14 @@ class AccountPage extends Component {
             outgoing: []
         };
 
+        this.setState({ account_id: data.accounts[1]._id });
+
         // Gets all the puzzles
         this.setState({ account_puzzles : data.accounts[1].puzzles });
 
         // Gets all the friends
-        data.accounts[1].friendsList.forEach(friend => {
-            fetch(`http://localhost:3001/accounts/${friend}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
+        data.accounts[1].friendsList.forEach(async friend => {
+            await fetch(`http://localhost:3001/accounts/${friend}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
                 method: "GET"
             })
             .then(res => res.json())
@@ -141,14 +144,6 @@ class AccountPage extends Component {
         this.setState({showNotifModal: false})
     }
 
-    showImagePreview = (evt) => {
-        this.setState(
-            {
-                imagePreview: URL.createObjectURL(evt.target.files[0])
-            }
-        );
-    }
-
     // updatePublicShareSettings = (evt) => {
     //     console.log(evt.target);
 
@@ -166,6 +161,8 @@ class AccountPage extends Component {
         if (this.state.notifications.incoming && this.state.notifications.incoming.length) {
             notification = this.state.notifications.incoming.length;
         }
+
+        let id = this.state.account_id;
 
         return (
             <div id='pageContent'>
@@ -242,7 +239,7 @@ class AccountPage extends Component {
                     <UploadModal show={this.state.showUploadModal} 
                     handleClose={ evt => this.hideUploadModal(evt) }
                     image={this.state.imagePreview}
-                    handlePreviewImage={ evt => this.showImagePreview(evt) }/>
+                    accountId={id}/>
                     <div style={{marginTop: '10px'}} className='button' onClick={evt => this.showUploadModal(evt)}>
                             Click to Create a New Puzzle
                     </div>

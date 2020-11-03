@@ -11,6 +11,12 @@ class MediumPuzzleView extends Component {
         let sharedMessage;
         let submitButton;
 
+        let image;
+        
+        const blob = new Blob( [this.props.image] )
+        image = URL.createObjectURL(blob);
+        console.log(image);
+
         if (this.props.neither) {
             sharedMessage = <p><strong>This is a shared puzzle.</strong></p>
 
@@ -35,7 +41,7 @@ class MediumPuzzleView extends Component {
         return(
             <div id='medium-puzzle-view'>
                 <div id='puzzle-view'>
-                    <img src={`data:image/png;base64,${this.props.image}`} alt='Link is Broken'/>
+                    <img src={image} alt='Link is Broken'/>
                     <span className='tag_holder'>
                         {this.props.tags}
                     </span>
