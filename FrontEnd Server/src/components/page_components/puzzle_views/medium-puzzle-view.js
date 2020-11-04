@@ -1,8 +1,27 @@
 import React, { Component } from 'react';
 
+import DeletePuzzle from '../modals/deletePuzzle-modal';
+
+
 class MediumPuzzleView extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            showDeleteModal: false,
+            refresh: false,
+        }
+    }
+
+    showDelModal = (evt) => {
+        this.setState({showDeleteModal: true});
+    }
+    hideDelModal = (evt) => {
+        this.setState({showDeleteModal: false})
+    }
+
+    refreshPage = (evt) => {
+        this.setState({ refresh : true });
     }
 
     render() {
@@ -10,12 +29,7 @@ class MediumPuzzleView extends Component {
         let friendShareButton;
         let sharedMessage;
         let submitButton;
-
-        let image;
-        
-        const blob = new Blob( [this.props.image] )
-        image = URL.createObjectURL(blob);
-        console.log(image);
+        let deleteButton;
 
         if (this.props.neither) {
             sharedMessage = <p><strong>This is a shared puzzle.</strong></p>
@@ -25,8 +39,6 @@ class MediumPuzzleView extends Component {
         
             friendShareButton = <input disabled type='checkbox' id='friendShare' 
             name='friendShare' value='Shared' defaultChecked={this.props.friendsShared}/>
-
-            submitButton = <input disabled type='submit' value='Update Share Settings' id='update-share-disabled'/>
         } else {
             publicShareButton = <input type='checkbox' id='publicShare' 
             name='publicShare' value='Public' defaultChecked={this.props.publicallyShared}/>
@@ -34,19 +46,25 @@ class MediumPuzzleView extends Component {
             friendShareButton = <input type='checkbox' id='friendShare' 
             name='friendShare' value='Shared' defaultChecked={this.props.friendsShared}/>
 
-            submitButton = <input type='submit' value='Update Share Settings' id='update-share'/>
+            submitButton = <input type='submit' value='Update Share Settings' id='update-share'
+            onClick={evt => this.refreshPage(evt)}/>
+
+            deleteButton = <div id='update-share'
+            onClick={evt => this.showDelModal(evt)}>
+                Delete Me?
+            </div>
         }
 
 
         return(
             <div id='medium-puzzle-view'>
                 <div id='puzzle-view'>
-                    <img src={image} alt='Link is Broken'/>
+                    <img src={this.props.image} alt='Link is Broken'/>
                     <span className='tag_holder'>
                         {this.props.tags}
                     </span>
                     <h2 className='small-puzzle-view title'>
-                        {this.props.title}
+                        {this.props.name}
                     </h2>
                 </div>
                 <div id='sharing-view'>
@@ -55,7 +73,7 @@ class MediumPuzzleView extends Component {
                         <input readOnly type='image' name='image' value='' src={this.props.image}
                         alt='Missing'
                         style={{display:'none'}}/>
-                        <input readOnly type='text' name='title' value={this.props.title}
+                        <input readOnly type='text' name='title' value={this.props.name}
                         style={{display:'none'}}/>
                         <input readOnly type='text' name='tags' value={this.props.tags}
                         style={{display:'none'}}/>
@@ -69,8 +87,17 @@ class MediumPuzzleView extends Component {
                         <br />
     
                         { submitButton }
+                        <br/>
+                        { deleteButton }
                     </form>
                 </div>
+                <DeletePuzzle id={this.props.id}
+                name={this.props.name}
+                image={this.props.image}
+                puzzle_id={this.props.puzzle_id}
+                shared={this.props.friendsShared}
+                show={this.state.showDeleteModal} 
+                handleClose={ evt => this.hideDelModal(evt) }/>
             </div>
         );
     }

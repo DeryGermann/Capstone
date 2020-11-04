@@ -19,24 +19,26 @@ class UploadModal extends Component {
     }
 
     showImagePreview = (evt) => {
-        let fileReader = new FileReader();
-        let blob_image;
-        let saveable_image;
-
         this.setState(
             { imagePreview: URL.createObjectURL(evt.target.files[0]) }, async () => {
-                blob_image = await fetch(this.state.imagePreview)
-                .then(res => res.blob());
+                let img = document.createElement('img');
+                img.src = this.state.imagePreview;
 
-                fileReader.readAsDataURL(blob_image);
+                let width = 0;
+                let height = 0;
 
-                fileReader.onloadend = () => {
-                    saveable_image = fileReader.result
+                img.onload = () => {
+                    width = img.width;
+                    height = img.height;
 
-                    this.setState({
-                        new_image : blob_image
-                    });
-                };
+                    let canvas = document.createElement('canvas');
+                    let ctx = canvas.getContext('2d');
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.drawImage(img, 0, 0);
+
+                    this.setState({ new_image : encodeURIComponent(canvas.toDataURL()) });
+                }
             }
         );
     }
@@ -52,7 +54,6 @@ class UploadModal extends Component {
     }
     
     submitData = (evt) => {
-        console.log(this.state.new_image)
         if (this.state.new_name !== "" && this.state.new_image !== "") {
             fetch(`http://localhost:3001/puzzles?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
                 {

@@ -11,7 +11,7 @@ let PuzzleSchema = new mongoose.Schema({
             default: undefined
         },
         image: {
-            type: Buffer,
+            type: String,
             default: undefined
         },
         tags: {
@@ -30,7 +30,7 @@ let PuzzleSchema = new mongoose.Schema({
             default: undefined
         },
         image: {
-            type: Buffer,
+            type: String,
             default: undefined
         },
         tags: {

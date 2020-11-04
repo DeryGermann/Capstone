@@ -52,12 +52,11 @@ class AccountPage extends Component {
         .then(res => res.json())
         .then(result => this.setState({ account_id: result.accounts[1]._id }, () => {
             check = result;
-            console.log(check);
             this.populateVaraiables(check)
         }))
         .catch(e => console.log(e));
     }
-    populateVaraiables(data) {
+    async populateVaraiables(data) {
         let notif = {
             incoming: [],
             outgoing: []
@@ -65,8 +64,32 @@ class AccountPage extends Component {
 
         this.setState({ account_id: data.accounts[1]._id });
 
+        let puzzles = [];
         // Gets all the puzzles
-        this.setState({ account_puzzles : data.accounts[1].puzzles });
+        await fetch('http://localhost:3001/puzzles?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495', {
+            method: "GET",
+        }).then(res => res.json())
+        .then(result => puzzles = result)
+        .then(() => {
+            let puzzle_holder = [];
+
+            puzzles.forEach(puzzle => {
+                if (puzzle.account_id === this.state.account_id) {
+                    if (puzzle.personal_puzzle.status !== "Shared" 
+                    && puzzle.personal_puzzle.hasOwnProperty("image")) {
+                        puzzle.personal_puzzle.id = puzzle._id;
+                        puzzle_holder.push(puzzle.personal_puzzle);
+                    } else {
+                        puzzle.shared_puzzle.id = puzzle._id;
+                        puzzle_holder.push(puzzle.shared_puzzle);
+                    }
+
+                    this.setState({ account_puzzles : puzzle_holder });
+                }
+            });
+        })
+        .catch(e => console.log(e));
+        
 
         // Gets all the friends
         data.accounts[1].friendsList.forEach(async friend => {
@@ -104,7 +127,7 @@ class AccountPage extends Component {
             let test = {};
 
             test.image = `./test_images/image${index}.png`;
-            test.tags = `#cool #reallycool #supercool`;
+            test.tags = `cool reallycool supercool`;
             test.title = `Test Image ${index}`;
             
             let rand = Math.floor(Math.random() * 4);
@@ -122,7 +145,9 @@ class AccountPage extends Component {
             test_l.push(test);
         }
 
-        this.setState({account_puzzles: test_l});
+        this.setState({account_puzzles: test_l}, () => {
+            console.log(this.state.account_puzzles)
+        });
     }
 
     showUploadModal = (evt) => {
@@ -143,6 +168,7 @@ class AccountPage extends Component {
     hideNotifModal = (evt) => {
         this.setState({showNotifModal: false})
     }
+
 
     // updatePublicShareSettings = (evt) => {
     //     console.log(evt.target);
@@ -188,8 +214,7 @@ class AccountPage extends Component {
                             </div>
 
                             <div>
-                                <FriendsList friends={this.state.account_friends}
-                                notifications={12}/>
+                                <FriendsList friends={this.state.account_friends}/>
 
                                 <FriendsModal show={this.state.showFriendModal} 
                                 handleClose={ evt => this.hideFriendModal(evt) }/>
@@ -227,7 +252,9 @@ class AccountPage extends Component {
                                         key={i}
                                         image={view.image}
                                         tags={view.tags}
-                                        title={view.title}
+                                        name={view.name}
+                                        id={id}
+                                        puzzle_id={view.id}
                                         publicallyShared={publicShareStatus}
                                         friendsShared={friendShareStatus}
                                         neither={neither}/>)

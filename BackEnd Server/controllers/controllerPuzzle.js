@@ -52,17 +52,17 @@ exports.puzzle__update = (req, res) => {
 
 exports.puzzle_personal_delete = (req, res) => {
     let apiKey = req.query.apikey;
-    let personal = req.query.image;
+    let image_id = req.query.imageId;
     securityService.validateApiKey(apiKey, valid => {
         if (valid) {
             puzzle.findOneAndDelete(
                 {
                     account_id: req.params.accountid, 
-                    "personal_puzzle.image": personal,
+                    _id : image_id,
                     "personal_puzzle.name": req.params.name
                 }, function(err, data) {
                 if(err) res.send(err);
-                res.send(`Account ID: ${req.params.accountid}\nName: ${req.params.name}\n\nImage: ${personal}\nwas successfully deleted.`);
+                res.send(`Account ID: ${req.params.accountid}\nName: ${req.params.name}\n\nImage_ID: ${image_id}\nwas successfully deleted.`);
             });
         } else {
             res.json('Invalid API Key.');
@@ -72,17 +72,17 @@ exports.puzzle_personal_delete = (req, res) => {
 
 exports.puzzle_shared_delete = (req, res) => {
     let apiKey = req.query.apikey;
-    let shared = req.query.image;
+    let image_id = req.query.imageId;
     securityService.validateApiKey(apiKey, valid => {
         if (valid) {
             puzzle.findOneAndDelete(
                 {
                     account_id: req.params.accountid, 
-                    "shared_puzzle.image": shared,
+                    _id : image_id,
                     "shared_puzzle.name": req.params.name
                 }, function(err, data) {
                 if(err) res.send(err);
-                res.send(`Account ID: ${req.params.accountid}\nName: ${req.params.name}\n\nImage: ${shared}\nwas successfully deleted.`);
+                res.send(`Account ID: ${req.params.accountid}\nName: ${req.params.name}\n\nImage ID: ${image_id}\nwas successfully deleted.`);
             });
         } else {
             res.json('Invalid API Key.');
