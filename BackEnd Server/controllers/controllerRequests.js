@@ -24,8 +24,8 @@ exports.requests__delete = (req, res) => {
         if (valid) {
             requests.findOneAndDelete(
                 {
-                    _id: req.params.accountid
-                }, function(err, data) {
+                    account_id: req.params.accountid
+                },{ incoming : req.params.otherid } || { outgoing : req.params.otherid }, function(err, data) {
                 if(err) res.send(err);
                 res.send(`_id: ${req.params.accountid} was successfully deleted from the requests table.`);
             });

@@ -65,6 +65,19 @@ exports.account__update = (req, res) => {
         }
     });
 }
+exports.account_friendlist_update = (req, res) => {
+    let apiKey = req.query.apikey;
+    securityService.validateApiKey(apiKey, valid => {
+        if (valid) {
+            account.findOneAndUpdate({_id: req.params.accountid}, { $push: { friendsList: req.params.friendid } }, (err, data) => {
+                if(err) res.send(err);
+                res.send(`_id: ${req.params.accountid} was successfully updated.`);
+            });
+        } else {
+            res.json('Invalid API Key.');
+        }
+    });
+}
 
 exports.account__delete = (req, res) => {
     let apiKey = req.query.apikey;

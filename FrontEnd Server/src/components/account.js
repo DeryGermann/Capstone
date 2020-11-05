@@ -205,7 +205,9 @@ class AccountPage extends Component {
                         <div id='friends-list'>
                             <div id='notif-title'>
                                 <h4>Friends List</h4>
-                                <NotifModal show={this.state.showNotifModal} 
+                                <NotifModal account_id={this.state.account_id}
+                                friends={this.state.account_friends}
+                                show={this.state.showNotifModal} 
                                 handleClose={ evt => this.hideNotifModal(evt) }
                                 notifs={this.state.notifications}/>
                                 <div id='notif' onClick={evt => this.showNotifModal(evt)}>
@@ -216,7 +218,10 @@ class AccountPage extends Component {
                             <div>
                                 <FriendsList friends={this.state.account_friends}/>
 
-                                <FriendsModal show={this.state.showFriendModal} 
+                                <FriendsModal account_id={this.state.account_id}
+                                friendsList={this.state.account_friends}
+                                notifications={this.state.notifications}
+                                show={this.state.showFriendModal} 
                                 handleClose={ evt => this.hideFriendModal(evt) }/>
                             </div>
                             <div className='button' id='friends-button' onClick={evt => this.showFriendModal(evt)}>

@@ -12,14 +12,15 @@ module.exports = function(app) {
 
     // Account Table 
     app.route('/').get(accountController.root);
+    // Lists all accounts
     app.route('/accounts/listall').get(accountController.account__listall);
     // Creates new account
     app.route('/accounts').post(accountController.account__create);
     app.route('/accounts/:accountid')
-    // Lists all accounts
     .get(accountController.account__get)
     // Update account using account _id
     app.route('/accounts/:accountid').put(accountController.account__update);
+    app.route('/accounts/:accountid/:friendid').put(accountController.account_friendlist_update);
     // Delete accout using account _id
     app.route('/accounts/:accountid').delete(accountController.account__delete);
 
@@ -45,6 +46,6 @@ module.exports = function(app) {
     // Requests Table 
     app.route('/requests')
     .post(requestsController.request__create);
-    app.route('/requests/:accountid')
+    app.route('/requests/:accountid/:otherid')
     .delete(requestsController.requests__delete);
 }
