@@ -54,6 +54,10 @@ class UploadModal extends Component {
     }
     
     submitData = (evt) => {
+        // Should be refreshing. BUT doesn't
+        this.setState({ refresh : !this.state.refresh }, () => {
+            console.log(this.state.refresh);
+        });
         if (this.state.new_name !== "" && this.state.new_image !== "") {
             fetch(`http://localhost:3001/puzzles?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
                 {
@@ -63,8 +67,7 @@ class UploadModal extends Component {
                     }),
                     body: `account_id=${this.props.accountId}&personal_puzzle.name=${this.state.new_name}&personal_puzzle.tags=${this.state.new_tags}&personal_puzzle.image=${this.state.new_image}`
                 }
-            ).then(res => console.log(res.json()))
-            .then(this.setState({ refresh : true }));
+            ).then(res => console.log(res.json()));
         } else {
             console.log('missing content');
         }
