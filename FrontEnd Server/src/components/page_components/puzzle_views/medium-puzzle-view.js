@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import DeletePuzzle from '../modals/deletePuzzle-modal';
-
 
 class MediumPuzzleView extends Component {
     constructor(props) {
@@ -55,50 +55,61 @@ class MediumPuzzleView extends Component {
             </div>
         }
 
+        let data = [
+            {
+                image: this.props.image,
+                name: this.props.name
+            }
+        ]
 
         return(
-            <div id='medium-puzzle-view'>
-                <div id='puzzle-view'>
-                    <img src={this.props.image} alt='Link is Broken'/>
-                    <span className='tag_holder'>
-                        {this.props.tags}
-                    </span>
-                    <h2 className='small-puzzle-view title'>
-                        {this.props.name}
-                    </h2>
-                </div>
-                <div id='sharing-view'>
-                    <form id='sharing-form'>
-    
-                        <input readOnly type='image' name='image' value='' src={this.props.image}
-                        alt='Missing'
-                        style={{display:'none'}}/>
-                        <input readOnly type='text' name='title' value={this.props.name}
-                        style={{display:'none'}}/>
-                        <input readOnly type='text' name='tags' value={this.props.tags}
-                        style={{display:'none'}}/>
+            <Link className='link' to={{
+                pathname: '/puzzle',
+                data: data
+            }}>
+                <div id='medium-puzzle-view'>
+                    <div id='puzzle-view'>
+                        <img src={this.props.image} alt='Link is Broken'/>
+                        <span className='tag_holder'>
+                            {this.props.tags}
+                        </span>
+                        <h2 className='small-puzzle-view title'>
+                            {this.props.name}
+                        </h2>
+                    </div>
+                    <div id='sharing-view'>
+                        <form id='sharing-form'>
+        
+                            <input readOnly type='image' name='image' value='' src={this.props.image}
+                            alt='Missing'
+                            style={{display:'none'}}/>
+                            <input readOnly type='text' name='title' value={this.props.name}
+                            style={{display:'none'}}/>
+                            <input readOnly type='text' name='tags' value={this.props.tags}
+                            style={{display:'none'}}/>
 
-                        { sharedMessage }
-                        <label htmlFor='publicShare'>public</label>
-                        { publicShareButton }
-                        <br />
-                        <label htmlFor='friendShare'>friends</label>
-                        { friendShareButton }
-                        <br />
-    
-                        { submitButton }
-                        <br/>
-                        { deleteButton }
-                    </form>
+                            { sharedMessage }
+                            <label htmlFor='publicShare'>public</label>
+                            { publicShareButton }
+                            <br />
+                            <label htmlFor='friendShare'>friends</label>
+                            { friendShareButton }
+                            <br />
+        
+                            { submitButton }
+                            <br/>
+                            { deleteButton }
+                        </form>
+                    </div>
+                    <DeletePuzzle id={this.props.id}
+                    name={this.props.name}
+                    image={this.props.image}
+                    puzzle_id={this.props.puzzle_id}
+                    shared={this.props.friendsShared}
+                    show={this.state.showDeleteModal} 
+                    handleClose={ evt => this.hideDelModal(evt) }/>
                 </div>
-                <DeletePuzzle id={this.props.id}
-                name={this.props.name}
-                image={this.props.image}
-                puzzle_id={this.props.puzzle_id}
-                shared={this.props.friendsShared}
-                show={this.state.showDeleteModal} 
-                handleClose={ evt => this.hideDelModal(evt) }/>
-            </div>
+            </Link>
         );
     }
 }

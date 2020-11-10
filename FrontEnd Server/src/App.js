@@ -6,6 +6,7 @@ import HomePage from './components/home';
 import SignUpPage from './components/signUp';
 import PublicPage from './components/public';
 import AccountPage from './components/account';
+import PuzzlePage from './components/puzzle';
 
 class App extends Component {
 
@@ -16,6 +17,7 @@ class App extends Component {
         <Route path='/signup' component={SignUpPage}/>
         <Route path='/public' component={PublicPage}/>
         <Route path='/account' component={AccountPage}/>
+        <Route path='/puzzle' component={PuzzlePage}/>
       </Router>
     );
   }
