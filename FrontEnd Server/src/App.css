@@ -243,15 +243,30 @@ h4 {
   justify-content: center;
   align-items: center;
 }
-#puzzle-view {
+#solving-puzzle-view {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  
+  justify-content: center;
+  align-items: center;
 }
 #puzzle-outline {
   flex: 3;
 
   display: flex;
   flex-direction: row;
+
+  justify-content: center;
+  align-items: center;
+
+  padding-right: 20px;
+}
+#puzzle-preview {
+  margin-bottom: 50px;
+}
+#preview {
+  width: 20%;
+  height: 100%;
 }
 #delete-view {
   display: flex;
