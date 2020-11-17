@@ -10,7 +10,7 @@ class NotifModal extends Component {
         }
 
         this.acceptRequest = this.acceptRequest.bind(this);
-        this.declineRequest = this.declineRequest.bind(this);
+        this.declineOutGoingRequest = this.declineOutGoingRequest.bind(this);
     }
 
     componentDidMount = () => {
@@ -50,7 +50,7 @@ class NotifModal extends Component {
             method: "PUT",
         }).catch(e => console.log(e));
     }
-    declineRequest = (evt) => {
+    declineOutGoingRequest = (evt) => {
         let other_user_id;
         // Gets user id from the selected request
         this.state.all_users.forEach(user => {
@@ -60,11 +60,30 @@ class NotifModal extends Component {
         });
 
         // Deletes request from both users
-        fetch(`http://localhost:3001/requests/${other_user_id}/${this.props.account_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
+        fetch(`http://localhost:3001/requests/incoming/${other_user_id}/${this.props.account_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
             method: "DELETE",
         }).then(res => console.log(res))
         .catch(e => console.log(e));
-        fetch(`http://localhost:3001/requests/${this.props.account_id}/${other_user_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
+        fetch(`http://localhost:3001/requests/outgoing/${this.props.account_id}/${other_user_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
+            method: "DELETE",
+        }).then(res => console.log(res))
+        .catch(e => console.log(e));
+    }
+    declineIncomingRequest = (evt) => {
+        let other_user_id;
+        // Gets user id from the selected request
+        this.state.all_users.forEach(user => {
+            if (`${user.firstName} ${user.lastName}` === evt.target.id) {
+                other_user_id = user._id;
+            }
+        });
+
+        // Deletes request from both users
+        fetch(`http://localhost:3001/requests/outgoing/${other_user_id}/${this.props.account_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
+            method: "DELETE",
+        }).then(res => console.log(res))
+        .catch(e => console.log(e));
+        fetch(`http://localhost:3001/requests/incoming/${this.props.account_id}/${other_user_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
             method: "DELETE",
         }).then(res => console.log(res))
         .catch(e => console.log(e));
@@ -87,7 +106,7 @@ class NotifModal extends Component {
                                     <div key={i} className='req'>
                                         <p className='name'>{name}</p>
                                         <span onClick={this.acceptRequest} id={name}>&#x2713;</span>
-                                        <span onClick={this.declineRequest} id={name}>&times;</span>
+                                        <span onClick={this.declineIncomingRequest} id={name}>&times;</span>
                                     </div>
                                 )
                             })
@@ -101,7 +120,7 @@ class NotifModal extends Component {
                                 return(
                                     <div key={i} className='req'>
                                         <p className='name'>{name}</p>
-                                        <span onClick={this.declineRequest} id={name}>&times;</span>
+                                        <span onClick={this.declineOutGoingRequest} id={name}>&times;</span>
                                     </div>
                                 )
                             })

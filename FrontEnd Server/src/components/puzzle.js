@@ -106,7 +106,7 @@ class PuzzlePage extends Component {
                     puzzle_height
                 );
 
-                drag_items.push(<Draggable bounds={{top: -65}}>
+                drag_items.push(<Draggable>
                     <img src={c.toDataURL()} style={{border: '1px solid black'}}/>
                 </Draggable>);
             }

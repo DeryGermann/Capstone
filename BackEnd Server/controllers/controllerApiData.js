@@ -101,10 +101,10 @@ const addRequestsToAccounts = () => {
         requestsJSON.forEach(req => {
             if (account._id == req.account_id) {
                 // Sorts the incoming and outgoing requests
-                if (req.hasOwnProperty('outgoing_requests')) {
-                    account.requests.outgoing.push(req.outgoing_requests[0]);
+                if (req.hasOwnProperty('outgoing_request')) {
+                    account.requests.outgoing.push(req.outgoing_request);
                 } else {
-                    account.requests.incoming.push(req.incoming_requests[0]);
+                    account.requests.incoming.push(req.incoming_request);
                 }
             }
         });

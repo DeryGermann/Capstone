@@ -46,6 +46,8 @@ module.exports = function(app) {
     // Requests Table 
     app.route('/requests')
     .post(requestsController.request__create);
-    app.route('/requests/:accountid/:otherid')
-    .delete(requestsController.requests__delete);
+    app.route('/requests/outgoing/:accountid/:otherid')
+    .delete(requestsController.requests_outgoing_delete);
+    app.route('/requests/incoming/:accountid/:otherid')
+    .delete(requestsController.requests_incoming_delete);
 }

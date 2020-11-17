@@ -5,12 +5,12 @@ let RequestsSchema = new mongoose.Schema({
         type: String,
         required: "Enter the account's id"
     },
-    incoming_requests : {
-        type: Array,
+    incoming_request : {
+        type: String,
         default: undefined
     },
-    outgoing_requests : {
-        type: Array,
+    outgoing_request : {
+        type: String,
         default: undefined
     }
 });

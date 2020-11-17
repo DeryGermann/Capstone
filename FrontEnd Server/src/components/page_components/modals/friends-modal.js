@@ -44,7 +44,7 @@ class FriendsModal extends Component {
             headers: new Headers({
                 'Content-Type': 'application/x-www-form-urlencoded', 
             }),
-            body: `account_id=${this.props.account_id}&outgoing_requests=${evt.target.id}`
+            body: `account_id=${this.props.account_id}&outgoing_request=${evt.target.id}`
         });
 
         // Send INCOMING to the user's account
@@ -53,7 +53,7 @@ class FriendsModal extends Component {
             headers: new Headers({
                 'Content-Type': 'application/x-www-form-urlencoded', 
             }),
-            body: `account_id=${evt.target.id}&incoming_requests=${this.props.account_id}`
+            body: `account_id=${evt.target.id}&incoming_request=${this.props.account_id}`
         }).then(this.setState({ refresh: true }));
     }
     
@@ -61,6 +61,8 @@ class FriendsModal extends Component {
         const showHideClassName = this.props.show ? "friends-modal friends-display-block" : "friends-modal friends-display-none";
 
         // console.log(!this.props.notifications.outgoing.includes(`Jim Bo Bo`))
+        // console.log(!this.props.friendsList.includes(`Daniil Baydak`));
+        // console.log(this.props.friendsList)
 
         return (
             <div className={showHideClassName}>
