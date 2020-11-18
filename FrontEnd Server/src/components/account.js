@@ -17,6 +17,7 @@ class AccountPage extends Component {
             gbh: <a href='public' id='go-back-home-button'><p>&#8592; Go Back To Public Page</p></a>,
             account_puzzles: [],
             account_friends: [],
+            friend_ids: [],
             notifications: {
                 incoming: [],
                 outgoing: []
@@ -92,6 +93,7 @@ class AccountPage extends Component {
         
 
         // Gets all the friends
+        this.setState({ friend_ids: data.accounts[1].friendsList });
         data.accounts[1].friendsList.forEach(async friend => {
             await fetch(`http://localhost:3001/accounts/${friend}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
                 method: "GET"
@@ -168,18 +170,6 @@ class AccountPage extends Component {
     hideNotifModal = (evt) => {
         this.setState({showNotifModal: false})
     }
-
-
-    // updatePublicShareSettings = (evt) => {
-    //     console.log(evt.target);
-
-    //     // Call method to update database.
-    // }
-    // updateFriendShareSettings = (evt) => {
-    //     console.log(evt.target);
-
-    //     // Call method to update database.
-    // }
 
     render() {
         let notification = 0;
@@ -260,6 +250,7 @@ class AccountPage extends Component {
                                         name={view.name}
                                         id={id}
                                         puzzle_id={view.id}
+                                        friend_list={this.state.friend_ids}
                                         publicallyShared={publicShareStatus}
                                         friendsShared={friendShareStatus}
                                         neither={neither}/>)

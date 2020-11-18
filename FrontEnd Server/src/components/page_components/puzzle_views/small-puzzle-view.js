@@ -1,9 +1,22 @@
+import { Link } from 'react-router-dom';
 import React from 'react';
 
 const SmallPuzzleView = props => {
+    let data = [
+        {
+            image: props.image,
+            name: props.name
+        }
+    ]
+
     return(
         <div id='small-puzzle-view'>
-            <img src={`data:image/png;base64,${props.image}`} alt='Link is Broken'/>
+            <Link className='link' to={{
+                pathname: '/puzzle',
+                data: data
+            }}>
+                <img src={props.image} alt='Link is Broken'/>
+            </Link>
             <span className='tag_holder'>
                 {props.tags}
             </span>

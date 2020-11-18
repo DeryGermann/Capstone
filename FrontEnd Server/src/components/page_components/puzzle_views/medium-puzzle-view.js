@@ -10,7 +10,14 @@ class MediumPuzzleView extends Component {
         this.state = {
             showDeleteModal: false,
             refresh: false,
+            public: this.props.publicallyShared,
+            friend: this.props.friendsShared,
+            friend_ids: this.props.friend_list
         }
+
+        this.sharePublic = this.sharePublic.bind(this);
+        this.shareFriend = this.shareFriend.bind(this);
+        this.updateShareState = this.updateShareState.bind(this);
     }
 
     showDelModal = (evt) => {
@@ -24,6 +31,120 @@ class MediumPuzzleView extends Component {
         this.setState({ refresh : true });
     }
 
+    sharePublic = (evt) => {
+        this.setState({ public: !this.state.public }, () => {
+            if (this.state.public) {
+                // Add to public list
+                fetch(`http://localhost:3001/public-puzzles?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
+                {
+                    method: "POST",
+                    headers: new Headers({
+                        'Content-Type': 'application/x-www-form-urlencoded', 
+                    }),
+                    body: `puzzle_id=${this.props.puzzle_id}&image=${encodeURIComponent(this.props.image)}&tags=${this.props.tags}&name=${this.props.name}`
+                }
+                ).then(res => console.log(res.json()));
+                
+                // Update the user's puzzle
+                fetch(`http://localhost:3001/puzzles/${this.props.id}/${this.props.puzzle_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
+                {
+                    method: "PUT",
+                    headers: new Headers({
+                        'Content-Type': 'application/x-www-form-urlencoded', 
+                    }),
+                    body: `personal_puzzle.status=Public`
+                }
+                ).then(res => console.log(res.json())).then(this.updateShareState());
+            } else {
+                // Delete from public list
+                fetch(`http://localhost:3001/public-puzzles/${this.props.puzzle_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
+                    method: "DELETE",
+                }).then(res => console.log(res))
+                .catch(e => console.log(e));
+
+                // Update the user's puzzle
+                fetch(`http://localhost:3001/puzzles/${this.props.id}/${this.props.puzzle_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
+                {
+                    method: "PUT",
+                    headers: new Headers({
+                        'Content-Type': 'application/x-www-form-urlencoded', 
+                    }),
+                    body: `personal_puzzle.status=Personal`
+                }
+                ).then(res => console.log(res.json()));
+            }
+        });
+    }
+    shareFriend = (evt) => {
+        this.setState({ friend: !this.state.friend }, () => {
+            if (this.state.friend) {
+                // Create puzzle for friends
+                this.state.friend_ids.forEach(id => {
+                    console.log(id);
+                    // fetch(`http://localhost:3001/puzzles?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
+                    // {
+                    //     method: "POST",
+                    //     headers: new Headers({
+                    //         'Content-Type': 'application/x-www-form-urlencoded', 
+                    //     }),
+                    //     body: `account_id=${id}&shared_puzzle.image=${encodeURIComponent(this.props.image)}&shared_puzzle.tags=${this.props.tags}&shared_puzzle.name=${this.props.name}`
+                    // }
+                    // ).then(res => console.log(res.json())).catch(e => console.log(e));
+                });
+                
+                // Update the user's puzzle share status
+                // fetch(`http://localhost:3001/puzzles/${this.props.id}/${this.props.puzzle_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
+                // {
+                //     method: "PUT",
+                //     headers: new Headers({
+                //         'Content-Type': 'application/x-www-form-urlencoded', 
+                //     }),
+                //     body: `personal_puzzle.status=Shared`
+                // }
+                // ).then(res => console.log(res.json())).then(this.updateShareState());
+            } else {
+                // Delete puzzle from the friend's view
+                this.state.friend_ids.forEach(id => {
+                    fetch(`http://localhost:3001/puzzles/${id}/shared/${this.props.name}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495&imageId=${this.props.puzzle_id}`, 
+                    {
+                        method: "DELETE",
+                    }
+                    ).then(res => console.log(res.json()));
+                });
+
+                // Updates the user's puzzle share status
+                // Checks if the puzzle is publically shared
+                if (this.state.public) {
+                    fetch(`http://localhost:3001/puzzles/${this.props.id}/${this.props.puzzle_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
+                    {
+                        method: "PUT",
+                        headers: new Headers({
+                            'Content-Type': 'application/x-www-form-urlencoded', 
+                        }),
+                        body: `personal_puzzle.status=Public`
+                    }
+                    ).then(res => console.log(res.json()));
+                } else {
+                    fetch(`http://localhost:3001/puzzles/${this.props.id}/${this.props.puzzle_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
+                    {
+                        method: "PUT",
+                        headers: new Headers({
+                            'Content-Type': 'application/x-www-form-urlencoded', 
+                        }),
+                        body: `personal_puzzle.status=Personal`
+                    }
+                    ).then(res => console.log(res.json()));
+                }
+            }
+        });
+    }
+
+    updateShareState = () => {
+        if (this.state.public && this.state.friend) {
+            // Change user's puzzle share status to BOTH
+        }
+    }
+
     render() {
         let publicShareButton;
         let friendShareButton;
@@ -35,19 +156,18 @@ class MediumPuzzleView extends Component {
             sharedMessage = <p><strong>This is a shared puzzle.</strong></p>
 
             publicShareButton = <input disabled type='checkbox' id='publicShare' 
-            name='publicShare' value='Public' defaultChecked={this.props.publicallyShared}/>
+            name='publicShare' value='Public' defaultChecked={this.state.public}/>
         
             friendShareButton = <input disabled type='checkbox' id='friendShare' 
-            name='friendShare' value='Shared' defaultChecked={this.props.friendsShared}/>
+            name='friendShare' value='Shared' defaultChecked={this.state.friend}/>
         } else {
             publicShareButton = <input type='checkbox' id='publicShare' 
-            name='publicShare' value='Public' defaultChecked={this.props.publicallyShared}/>
+            name='publicShare' value='Public' checked={this.state.public}
+            onChange={this.sharePublic}/>
         
             friendShareButton = <input type='checkbox' id='friendShare' 
-            name='friendShare' value='Shared' defaultChecked={this.props.friendsShared}/>
-
-            submitButton = <input type='submit' value='Update Share Settings' id='update-share'
-            onClick={evt => this.refreshPage(evt)}/>
+            name='friendShare' value='Shared' checked={this.state.friend}
+            onChange={this.shareFriend}/>
 
             deleteButton = <div id='update-share'
             onClick={evt => this.showDelModal(evt)}>
@@ -63,13 +183,14 @@ class MediumPuzzleView extends Component {
         ]
 
         return(
-            <Link className='link' to={{
-                pathname: '/puzzle',
-                data: data
-            }}>
-                <div id='medium-puzzle-view'>
+            <div id='medium-puzzle-view'>
                     <div id='puzzle-view'>
-                        <img src={this.props.image} alt='Link is Broken'/>
+                        <Link className='link' to={{
+                            pathname: '/puzzle',
+                            data: data
+                        }}>
+                            <img src={this.props.image} alt='Link is Broken'/>
+                        </Link>
                         <span className='tag_holder'>
                             {this.props.tags}
                         </span>
@@ -109,7 +230,6 @@ class MediumPuzzleView extends Component {
                     show={this.state.showDeleteModal} 
                     handleClose={ evt => this.hideDelModal(evt) }/>
                 </div>
-            </Link>
         );
     }
 }

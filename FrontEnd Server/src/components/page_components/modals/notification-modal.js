@@ -33,11 +33,11 @@ class NotifModal extends Component {
         });
 
         // Deletes request from both users
-        fetch(`http://localhost:3001/requests/${other_user_id}/${this.props.account_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
+        fetch(`http://localhost:3001/requests/outgoing/${other_user_id}/${this.props.account_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
             method: "DELETE",
         }).then(res => console.log(res))
         .catch(e => console.log(e));
-        fetch(`http://localhost:3001/requests/${this.props.account_id}/${other_user_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
+        fetch(`http://localhost:3001/requests/incoming/${this.props.account_id}/${other_user_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
             method: "DELETE",
         }).then(res => console.log(res))
         .catch(e => console.log(e));

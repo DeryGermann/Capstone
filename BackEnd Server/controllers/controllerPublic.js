@@ -20,15 +20,14 @@ exports.public__create = (req, res) => {
 
 exports.public_puzzle_delete = (req, res) => {
     let apiKey = req.query.apikey;
-    let puzzleId = req.query.id;
     securityService.validateApiKey(apiKey, valid => {
         if (valid) {
             publicPuzzle.findOneAndDelete(
                 {
-                    puzzle_id: puzzleId
+                    puzzle_id: req.params.puzzleid
                 }, function(err, data) {
                 if(err) res.send(err);
-                res.send(`Puzzle ID: ${puzzleId}\nwas successfully deleted.`);
+                res.send(`Puzzle ID: ${req.params.puzzleid}\nwas successfully deleted.`);
             });
         } else {
             res.json('Invalid API Key.');

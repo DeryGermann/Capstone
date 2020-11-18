@@ -2,6 +2,7 @@ let mongoose = require('mongoose');
 let puzzle = mongoose.model('Puzzle');
 let securityService = require('../serviceSecurity');
 
+// List all the puzzles
 exports.puzzle__listall = (req, res) => {
     let apiKey = req.query.apikey;
     securityService.validateApiKey(apiKey, valid => {
@@ -16,7 +17,6 @@ exports.puzzle__listall = (req, res) => {
     });
 }
 
-// List all the puzzles
 exports.puzzle__create = (req, res) => {
     let apiKey = req.query.apikey;
     securityService.validateApiKey(apiKey, valid => {
