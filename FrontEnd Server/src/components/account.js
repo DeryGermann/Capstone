@@ -76,11 +76,13 @@ class AccountPage extends Component {
 
             puzzles.forEach(puzzle => {
                 if (puzzle.account_id === this.state.account_id) {
-                    if (puzzle.personal_puzzle.status !== "Shared" 
-                    && puzzle.personal_puzzle.hasOwnProperty("image")) {
+                    // if (puzzle.personal_puzzle.status !== "Shared" 
+                    // && puzzle.personal_puzzle.hasOwnProperty("image")) {
+                    if (!puzzle.shared_puzzle) {
                         puzzle.personal_puzzle.id = puzzle._id;
                         puzzle_holder.push(puzzle.personal_puzzle);
                     } else {
+                        console.log(puzzle)
                         puzzle.shared_puzzle.id = puzzle._id;
                         puzzle_holder.push(puzzle.shared_puzzle);
                     }

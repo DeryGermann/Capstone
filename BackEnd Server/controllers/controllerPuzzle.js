@@ -72,17 +72,15 @@ exports.puzzle_personal_delete = (req, res) => {
 
 exports.puzzle_shared_delete = (req, res) => {
     let apiKey = req.query.apikey;
-    let image_id = req.query.imageId;
     securityService.validateApiKey(apiKey, valid => {
         if (valid) {
             puzzle.findOneAndDelete(
                 {
                     account_id: req.params.accountid, 
-                    _id : image_id,
                     "shared_puzzle.name": req.params.name
                 }, function(err, data) {
                 if(err) res.send(err);
-                res.send(`Account ID: ${req.params.accountid}\nName: ${req.params.name}\n\nImage ID: ${image_id}\nwas successfully deleted.`);
+                res.send(`Account ID: ${req.params.accountid}\nName: ${req.params.name} was successfully deleted.`);
             });
         } else {
             res.json('Invalid API Key.');

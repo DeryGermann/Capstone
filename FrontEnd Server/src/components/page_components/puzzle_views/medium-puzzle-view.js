@@ -11,8 +11,7 @@ class MediumPuzzleView extends Component {
             showDeleteModal: false,
             refresh: false,
             public: this.props.publicallyShared,
-            friend: this.props.friendsShared,
-            friend_ids: this.props.friend_list
+            friend: this.props.friendsShared
         }
 
         this.sharePublic = this.sharePublic.bind(this);
@@ -43,18 +42,30 @@ class MediumPuzzleView extends Component {
                     }),
                     body: `puzzle_id=${this.props.puzzle_id}&image=${encodeURIComponent(this.props.image)}&tags=${this.props.tags}&name=${this.props.name}`
                 }
-                ).then(res => console.log(res.json()));
+                ).then(res => console.log(res));
                 
                 // Update the user's puzzle
-                fetch(`http://localhost:3001/puzzles/${this.props.id}/${this.props.puzzle_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
-                {
-                    method: "PUT",
-                    headers: new Headers({
-                        'Content-Type': 'application/x-www-form-urlencoded', 
-                    }),
-                    body: `personal_puzzle.status=Public`
+                if (this.state.friend) {
+                    fetch(`http://localhost:3001/puzzles/${this.props.id}/${this.props.puzzle_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
+                    {
+                        method: "PUT",
+                        headers: new Headers({
+                            'Content-Type': 'application/x-www-form-urlencoded', 
+                        }),
+                        body: `personal_puzzle.status=Both`
+                    }
+                    ).then(res => console.log(res));
+                } else {
+                    fetch(`http://localhost:3001/puzzles/${this.props.id}/${this.props.puzzle_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
+                    {
+                        method: "PUT",
+                        headers: new Headers({
+                            'Content-Type': 'application/x-www-form-urlencoded', 
+                        }),
+                        body: `personal_puzzle.status=Public`
+                    }
+                    ).then(res => console.log(res));
                 }
-                ).then(res => console.log(res.json())).then(this.updateShareState());
             } else {
                 // Delete from public list
                 fetch(`http://localhost:3001/public-puzzles/${this.props.puzzle_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
@@ -63,53 +74,66 @@ class MediumPuzzleView extends Component {
                 .catch(e => console.log(e));
 
                 // Update the user's puzzle
-                fetch(`http://localhost:3001/puzzles/${this.props.id}/${this.props.puzzle_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
-                {
-                    method: "PUT",
-                    headers: new Headers({
-                        'Content-Type': 'application/x-www-form-urlencoded', 
-                    }),
-                    body: `personal_puzzle.status=Personal`
+                if (this.state.friend) {
+                    fetch(`http://localhost:3001/puzzles/${this.props.id}/${this.props.puzzle_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
+                    {
+                        method: "PUT",
+                        headers: new Headers({
+                            'Content-Type': 'application/x-www-form-urlencoded', 
+                        }),
+                        body: `personal_puzzle.status=Shared`
+                    }
+                    ).then(res => console.log(res));
+                } else {
+                    fetch(`http://localhost:3001/puzzles/${this.props.id}/${this.props.puzzle_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
+                    {
+                        method: "PUT",
+                        headers: new Headers({
+                            'Content-Type': 'application/x-www-form-urlencoded', 
+                        }),
+                        body: `personal_puzzle.status=Personal`
+                    }
+                    ).then(res => console.log(res));
                 }
-                ).then(res => console.log(res.json()));
             }
+
+            this.updateShareState();
         });
     }
     shareFriend = (evt) => {
         this.setState({ friend: !this.state.friend }, () => {
             if (this.state.friend) {
                 // Create puzzle for friends
-                this.state.friend_ids.forEach(id => {
-                    console.log(id);
-                    // fetch(`http://localhost:3001/puzzles?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
-                    // {
-                    //     method: "POST",
-                    //     headers: new Headers({
-                    //         'Content-Type': 'application/x-www-form-urlencoded', 
-                    //     }),
-                    //     body: `account_id=${id}&shared_puzzle.image=${encodeURIComponent(this.props.image)}&shared_puzzle.tags=${this.props.tags}&shared_puzzle.name=${this.props.name}`
-                    // }
-                    // ).then(res => console.log(res.json())).catch(e => console.log(e));
+                this.props.friend_list.forEach(id => {
+                    fetch(`http://localhost:3001/puzzles?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
+                    {
+                        method: "POST",
+                        headers: new Headers({
+                            'Content-Type': 'application/x-www-form-urlencoded', 
+                        }),
+                        body: `account_id=${id}&personal_puzzle.status=Shared&shared_puzzle.image=${encodeURIComponent(this.props.image)}&shared_puzzle.tags=${this.props.tags}&shared_puzzle.name=${this.props.name}`
+                    }
+                    ).then(res => console.log(res)).catch(e => console.log(e));
                 });
                 
                 // Update the user's puzzle share status
-                // fetch(`http://localhost:3001/puzzles/${this.props.id}/${this.props.puzzle_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
-                // {
-                //     method: "PUT",
-                //     headers: new Headers({
-                //         'Content-Type': 'application/x-www-form-urlencoded', 
-                //     }),
-                //     body: `personal_puzzle.status=Shared`
-                // }
-                // ).then(res => console.log(res.json())).then(this.updateShareState());
+                fetch(`http://localhost:3001/puzzles/${this.props.id}/${this.props.puzzle_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
+                {
+                    method: "PUT",
+                    headers: new Headers({
+                        'Content-Type': 'application/x-www-form-urlencoded', 
+                    }),
+                    body: `personal_puzzle.status=Shared`
+                }
+                ).then(res => console.log(res));
             } else {
                 // Delete puzzle from the friend's view
-                this.state.friend_ids.forEach(id => {
-                    fetch(`http://localhost:3001/puzzles/${id}/shared/${this.props.name}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495&imageId=${this.props.puzzle_id}`, 
+                this.props.friend_list.forEach(id => {
+                    fetch(`http://localhost:3001/puzzles/${id}/shared/${this.props.name}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
                     {
                         method: "DELETE",
                     }
-                    ).then(res => console.log(res.json()));
+                    ).then(res => console.log(res)).catch(e => console.log(e));
                 });
 
                 // Updates the user's puzzle share status
@@ -123,7 +147,7 @@ class MediumPuzzleView extends Component {
                         }),
                         body: `personal_puzzle.status=Public`
                     }
-                    ).then(res => console.log(res.json()));
+                    ).then(res => console.log(res));
                 } else {
                     fetch(`http://localhost:3001/puzzles/${this.props.id}/${this.props.puzzle_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
                     {
@@ -133,15 +157,26 @@ class MediumPuzzleView extends Component {
                         }),
                         body: `personal_puzzle.status=Personal`
                     }
-                    ).then(res => console.log(res.json()));
+                    ).then(res => console.log(res));
                 }
             }
+
+            this.updateShareState();
         });
     }
 
     updateShareState = () => {
         if (this.state.public && this.state.friend) {
             // Change user's puzzle share status to BOTH
+            fetch(`http://localhost:3001/puzzles/${this.props.id}/${this.props.puzzle_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
+            {
+                method: "PUT",
+                headers: new Headers({
+                    'Content-Type': 'application/x-www-form-urlencoded', 
+                }),
+                body: `personal_puzzle.status=Both`
+            }
+            ).then(res => console.log(res));
         }
     }
 
