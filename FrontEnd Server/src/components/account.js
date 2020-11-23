@@ -15,6 +15,7 @@ class AccountPage extends Component {
         this.state = {
             copyright: 'Copyright Dery Germann 2020',
             gbh: <a href='public' id='go-back-home-button'><p>&#8592; Go Back To Public Page</p></a>,
+            account: {},
             account_puzzles: [],
             account_friends: [],
             friend_ids: [],
@@ -23,6 +24,7 @@ class AccountPage extends Component {
                 outgoing: []
             },
             account_id: "",
+            all_requests: [],
             showUploadModal: false,
             showFriendModal: false,
             showNotifModal: false,
@@ -30,40 +32,37 @@ class AccountPage extends Component {
             friendShareStatus: false,
         }
 
-        // this.updatePublicShareSettings = this.updatePublicShareSettings.bind(this);
-        // this.updateFriendShareSettings = this.updateFriendShareSettings.bind(this);
-
-        this.getAccountData = this.getAccountData.bind(this);
         this.populateVaraiables = this.populateVaraiables.bind(this);
     }
 
     componentDidMount = () => {
-        // Will Read from the API and populate a variable
-        this.getAccountData();
+        // Delete any of the puzzle session variables 
+        sessionStorage.removeItem("image");
+        sessionStorage.removeItem("name");
+        sessionStorage.removeItem("height");
+        sessionStorage.removeItem("width");
 
-        // this.test_populate();
-    }
-
-    async getAccountData() {
-        let check = {};
-
-        await fetch('http://localhost:3001/getdata?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495', {
+        fetch('http://localhost:3001/requests?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495', {
             method: "GET",
         })
         .then(res => res.json())
-        .then(result => this.setState({ account_id: result.accounts[1]._id }, () => {
-            check = result;
-            this.populateVaraiables(check)
-        }))
+        .then(result => this.setState({ all_requests: result }))
         .catch(e => console.log(e));
+
+        this.setState({ account: JSON.parse(sessionStorage.getItem('user')) }, () => {
+            this.setState({ friend_ids: this.state.account.friendsList }, () => {
+                this.setState({ account_id: this.state.account._id }, () => {
+                    this.populateVaraiables();
+                })
+            });
+        });
     }
-    async populateVaraiables(data) {
+
+    async populateVaraiables() {
         let notif = {
             incoming: [],
             outgoing: []
         };
-
-        this.setState({ account_id: data.accounts[1]._id });
 
         let puzzles = [];
         // Gets all the puzzles
@@ -95,8 +94,7 @@ class AccountPage extends Component {
         
 
         // Gets all the friends
-        this.setState({ friend_ids: data.accounts[1].friendsList });
-        data.accounts[1].friendsList.forEach(async friend => {
+        this.state.friend_ids.forEach(async friend => {
             await fetch(`http://localhost:3001/accounts/${friend}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
                 method: "GET"
             })
@@ -106,52 +104,35 @@ class AccountPage extends Component {
                 account_friends : [...this.state.account_friends, [`${result[0].firstName} ${result[0].lastName}`]]}));
         });
 
-        // Gets all the names for the notifications
-        data.accounts[1].requests.incoming.forEach(async id => {
-            await fetch(`http://localhost:3001/accounts/${id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
-                method: "GET"
-            })
-            .then(res => res.json())
-            .then(result => notif.incoming.push(`${result[0].firstName} ${result[0].lastName}`));
-        });
-        data.accounts[1].requests.outgoing.forEach(async id => {
-            await fetch(`http://localhost:3001/accounts/${id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
-                method: "GET"
-            })
-            .then(res => res.json())
-            .then(result => notif.outgoing.push(`${result[0].firstName} ${result[0].lastName}`));
-            
-            this.setState({notifications: notif});
-        });
-    }
-
-    test_populate = () => {
-        let test_l = [];
-        for (let index = 1; index < 11; index++) {
-            let test = {};
-
-            test.image = `./test_images/image${index}.png`;
-            test.tags = `cool reallycool supercool`;
-            test.title = `Test Image ${index}`;
-            
-            let rand = Math.floor(Math.random() * 4);
-
-            if (rand === 0) {
-                test.status = 'Both';
-            } else if (rand === 1) {
-                test.status = 'Shared';
-            } else if (rand === 2) {
-                test.status = 'Public';
-            } else {
-                test.status = 'Personal';
+        // Assigns all the request ids for the current user
+        this.state.all_requests.forEach(request => {
+            if (request.account_id === this.state.account_id) {
+                if (request.incoming_request) {
+                    notif.incoming.push(request.incoming_request);
+                } else {    
+                    notif.outgoing.push(request.outgoing_request);
+                }
             }
+        });
 
-            test_l.push(test);
+        // Gets all the names for the notifications
+        for (let i = 0; i < notif.incoming.length; i++) {
+            await fetch(`http://localhost:3001/accounts/${notif.incoming[i]}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
+                method: "GET"
+            })
+            .then(res => res.json())
+            .then(result => notif.incoming[i] = `${result[0].firstName} ${result[0].lastName}`);
         }
 
-        this.setState({account_puzzles: test_l}, () => {
-            console.log(this.state.account_puzzles)
-        });
+        for (let i = 0; i < notif.outgoing.length; i++) {
+            await fetch(`http://localhost:3001/accounts/${notif.outgoing[i]}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
+                method: "GET"
+            })
+            .then(res => res.json())
+            .then(result => notif.outgoing[i] = `${result[0].firstName} ${result[0].lastName}`);
+        }
+
+        this.setState({ notifications: notif });
     }
 
     showUploadModal = (evt) => {

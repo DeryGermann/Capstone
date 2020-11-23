@@ -31,27 +31,55 @@ class PuzzlePage extends Component {
 
     render() {
 
-        const { data } = this.props.location
-
+        let canvas = document.createElement('canvas');
         let puzzle_grid = [];
         let puzzle_column = [];
         let drag_items = [];
         let height_scale = 1;
         let width_scale = 1;
+        let name;
+        if (!sessionStorage.getItem('image')) {
+            const { data } = this.props.location
 
-        let img = document.createElement('img');
-        img.src = data[0].image;
-        // Scales the image down if width or height is too big.
-        if (img.width > 1000 || img.height > 1000) {
-            height_scale = 0.5;
-            width_scale = 0.5;
+            name = data[0].name;
+            sessionStorage.setItem('name', data[0].name);
+
+            let img = document.createElement('img');
+            img.src = data[0].image;
+            // Scales the image down if width or height is too big.
+            if (img.width > 1000 || img.height > 1000) {
+                height_scale = 0.5;
+                width_scale = 0.5;
+            }
+
+            let w = img.width * width_scale;
+            let h = img.height * height_scale;
+
+            let ctx = canvas.getContext('2d');
+            canvas.width = w;
+            canvas.height = h;
+            ctx.drawImage(img, 0, 0, img.width * width_scale, img.height * height_scale);
+
+            sessionStorage.setItem('height', canvas.width);
+            sessionStorage.setItem('width', canvas.height);
+            sessionStorage.setItem('image', canvas.toDataURL());
+        } else {
+            name = sessionStorage.getItem('name');
+            
+            let img = document.createElement('img');
+            img.src = sessionStorage.getItem('image');
+            // Scales the image down if width or height is too big.
+            if (img.width > 1000 || img.height > 1000) {
+                height_scale = 0.5;
+                width_scale = 0.5;
+            }
+
+            let ctx = canvas.getContext('2d');
+            canvas.width = sessionStorage.getItem('height');
+            canvas.height = sessionStorage.getItem('width');
+            ctx.drawImage(img, 0, 0, img.width * width_scale, img.height * height_scale);
         }
 
-        let canvas = document.createElement('canvas');
-        let ctx = canvas.getContext('2d');
-        canvas.width = img.width * width_scale
-        canvas.height = img.height * height_scale
-        ctx.drawImage(img, 0, 0, img.width * width_scale, img.height * height_scale);
 
         // console.log(canvas.width);
         // console.log(canvas.height);
@@ -61,13 +89,107 @@ class PuzzlePage extends Component {
         for (let y = 0; y < 5; y++){
             puzzle_column = [];
             for (let x = 0; x < 5; x++) {
-                puzzle_column.push(<div key={`${y},${x}`} style={
-                    {
-                        border: '1px solid grey',
-                        maxHeight: canvas.height/5,
-                        minHeight: canvas.height/5
+                // Top left corner
+                if (y === 0 && x === 0) {
+                    puzzle_column.push(<div key={`${y},${x}`} style={
+                        {
+                            borderLeft: '1px solid grey',
+                            borderTop: '1px solid grey',
+                            maxHeight: canvas.height/5,
+                            minHeight: canvas.height/5
+                        }
+                    }></div>);
+
+                // Top right corner
+                } else if (y === 4 && x === 0) {
+                    puzzle_column.push(<div key={`${y},${x}`} style={
+                        {
+                            borderRight: '1px solid grey',
+                            borderTop: '1px solid grey',
+                            maxHeight: canvas.height/5,
+                            minHeight: canvas.height/5
+                        }
+                    }></div>);
+
+                // Left edges
+                } else if (y === 0 && (x === 1 || x === 2 || x === 3)) {
+                    puzzle_column.push(<div key={`${y},${x}`} style={
+                        {
+                            borderLeft: '1px solid grey',
+                            maxHeight: canvas.height/5,
+                            minHeight: canvas.height/5
+                        }
+                    }></div>);
+
+                // Right edges
+                } else if (y === 4 && (x === 1 || x === 2 || x === 3)) {
+                    puzzle_column.push(<div key={`${y},${x}`} style={
+                        {
+                            borderRight: '1px solid grey',
+                            maxHeight: canvas.height/5,
+                            minHeight: canvas.height/5
+                        }
+                    }></div>);
+
+                // Top and bottom edges
+                } else if (y === 1 || y === 2 || y === 3) {
+                    if (x === 0) {
+                        puzzle_column.push(<div key={`${y},${x}`} style={
+                            {
+                                borderTop: '1px solid grey',
+                                maxHeight: canvas.height/5,
+                                minHeight: canvas.height/5
+                            }
+                        }></div>);
+                    } else if (x === 4) {
+                        puzzle_column.push(<div key={`${y},${x}`} style={
+                            {
+                                borderBottom: '1px solid grey',
+                                maxHeight: canvas.height/5,
+                                minHeight: canvas.height/5
+                            }
+                        }></div>);
+                    } else {
+                        puzzle_column.push(<div key={`${y},${x}`} style={
+                            {
+                                maxHeight: canvas.height/5,
+                                minHeight: canvas.height/5
+                            }
+                        }></div>);
                     }
-                }></div>);
+
+                // Bottom left corner
+                } else if (y === 0 && x === 4) {
+                    puzzle_column.push(<div key={`${y},${x}`} style={
+                        {
+                            borderLeft: '1px solid grey',
+                            borderBottom: '1px solid grey',
+                            maxHeight: canvas.height/5,
+                            minHeight: canvas.height/5
+                        }
+                    }></div>);
+
+                // Bottom right corner
+                } else if (y === 4 && x === 4) {
+                    puzzle_column.push(<div key={`${y},${x}`} style={
+                        {
+                            borderRight: '1px solid grey',
+                            borderBottom: '1px solid grey',
+                            maxHeight: canvas.height/5,
+                            minHeight: canvas.height/5
+                        }
+                    }></div>);
+
+                // All the middle squares
+                }else {
+                    puzzle_column.push(<div key={`${y},${x}`} style={
+                        {
+                            maxHeight: canvas.height/5,
+                            minHeight: canvas.height/5
+                        }
+                    }></div>);
+                }
+
             }
             puzzle_grid.push(<div key={y} style={
                 { 
@@ -80,8 +202,10 @@ class PuzzlePage extends Component {
         // Create the 25 drag elements
         let puzzle_width = canvas.width / 5;
         let puzzle_height = canvas.height / 5; 
+
         console.log(puzzle_width);
         console.log(puzzle_height);
+
         let y_counter = -1;
         let x_counter = -1;
         for (let y = 0; y < 5; y++) {
@@ -130,7 +254,7 @@ class PuzzlePage extends Component {
                     />
                 </div>
                 <div id='content'>
-                    <h2>Puzzle Name: <u>{data[0].name}</u></h2>
+                    <h2>Puzzle Name: <u>{ name }</u></h2>
 
                     <div id='solving-puzzle-view'>
                         <div style={{display: 'flex', flexDirection: 'row'}}>

@@ -45,6 +45,7 @@ module.exports = function(app) {
 
     // Requests Table 
     app.route('/requests')
+    .get(requestsController.request__listall)
     .post(requestsController.request__create);
     app.route('/requests/outgoing/:accountid/:otherid')
     .delete(requestsController.requests_outgoing_delete);

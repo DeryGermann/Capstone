@@ -1,7 +1,7 @@
 let mongoose = require('mongoose');
 let fs = require('fs');
 
-let profile_base64 = fs.readFileSync('./public/default_profile_pic.png', 'base64');
+let img = fs.readFileSync('./public/default_profile_pic.png', 'base64');
 
 let AccountSchema = new mongoose.Schema({
     firstName: {
@@ -18,7 +18,7 @@ let AccountSchema = new mongoose.Schema({
     },
     profilePicture: {
         type: String,
-        default: profile_base64,
+        default: img,
     },
     friendsList: {
         type: Array,

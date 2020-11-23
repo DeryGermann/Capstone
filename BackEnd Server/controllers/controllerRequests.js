@@ -3,6 +3,20 @@ let requests = mongoose.model('Requests');
 let securityService = require('../serviceSecurity');
 
 // List all the requests
+exports.request__listall = (req, res) => {
+    let apiKey = req.query.apikey;
+    securityService.validateApiKey(apiKey, valid => {
+        if (valid) {
+            requests.find({}, (err, result) => {
+                if(err) res.send(err);
+                res.json(result);
+            });
+        } else {
+            res.send('Invalid API Key.');
+        }
+    });
+}
+
 exports.request__create = (req, res) => {
     let apiKey = req.query.apikey;
     securityService.validateApiKey(apiKey, valid => {
