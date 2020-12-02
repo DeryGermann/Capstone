@@ -2,6 +2,20 @@ let mongoose = require('mongoose');
 let publicPuzzle = mongoose.model('Public');
 let securityService = require('../serviceSecurity');
 
+exports.public__listall = (req, res) => {
+    let apiKey = req.query.apikey;
+    securityService.validateApiKey(apiKey, valid => {
+        if (valid) {
+            publicPuzzle.find({}, (err, result) => {
+                if(err) res.send(err);
+                res.json(result);
+            });
+        } else {
+            res.send('Invalid API Key.');
+        }
+    });
+}
+
 // List all the Public puzzles
 exports.public__create = (req, res) => {
     let apiKey = req.query.apikey;

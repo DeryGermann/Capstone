@@ -48,7 +48,7 @@ class PublicPage extends Component {
             method: "GET",
         })
         .then(res => res.json())
-        .then(result => this.setState({public_info : result.public}))
+        .then(result => this.setState({public_info : result}))
         .catch(e => console.log(e));
     }
 
@@ -59,6 +59,8 @@ class PublicPage extends Component {
     }
 
     render() {
+        console.log(this.state.public_info);
+
         return (
             <div id='pageContent'>
                 <div id='header'>

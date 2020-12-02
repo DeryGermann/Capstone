@@ -39,6 +39,7 @@ module.exports = function(app) {
 
     // Public Table 
     app.route('/public-puzzles')
+    .get(publicController.public__listall)
     .post(publicController.public__create);
     app.route('/public-puzzles/:puzzleid')
     .delete(publicController.public_puzzle_delete);

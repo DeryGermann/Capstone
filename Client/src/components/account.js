@@ -121,7 +121,8 @@ class AccountPage extends Component {
                 method: "GET"
             })
             .then(res => res.json())
-            .then(result => notif.incoming[i] = `${result[0].firstName} ${result[0].lastName}`);
+            .then(result => notif.incoming[i] = `${result[0].firstName} ${result[0].lastName}`)
+            .catch(e => console.log(e));
         }
 
         for (let i = 0; i < notif.outgoing.length; i++) {
@@ -129,7 +130,8 @@ class AccountPage extends Component {
                 method: "GET"
             })
             .then(res => res.json())
-            .then(result => notif.outgoing[i] = `${result[0].firstName} ${result[0].lastName}`);
+            .then(result => notif.outgoing[i] = `${result[0].firstName} ${result[0].lastName}`)
+            .catch(e => console.log(e));
         }
 
         this.setState({ notifications: notif });
