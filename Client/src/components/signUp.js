@@ -35,7 +35,11 @@ class SignUpPage extends Component {
         this.state.users.forEach(user => {
             // if (user.email === response.profileObj.email) {
             //     this.setState({ isNewUser: false });
+            //     loggedin_user = user;
+            // } else {
+            //     loggedin_user = user;
             // }
+
 
             if (user.email === "terer@gmail.com") {
                 this.setState({ isNewUser: false });

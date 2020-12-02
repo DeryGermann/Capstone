@@ -44,7 +44,7 @@ class PublicPage extends Component {
     }
 
     getPublicData() {
-        fetch('http://localhost:3001/getdata?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495', {
+        fetch('http://localhost:3001/public-puzzles?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495', {
             method: "GET",
         })
         .then(res => res.json())

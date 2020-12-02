@@ -13,6 +13,7 @@ let requests = require('./models/modelRequests');
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/CapstonePuzzleDB');
+// mongoose.connect('mongodb+srv://dery:Iamamiltoniusfreak1@cluster0.lokhe.mongodb.net/CapstonePuzzleDB');
 
 app.use(cors());
 
