@@ -22,6 +22,11 @@ class PublicPage extends Component {
     }
 
     componentDidMount() {
+        sessionStorage.removeItem("image");
+        sessionStorage.removeItem("name");
+        sessionStorage.removeItem("height");
+        sessionStorage.removeItem("width");
+
         // Will Read from the API and populate a variable
         this.getPublicData();
         
@@ -54,8 +59,6 @@ class PublicPage extends Component {
 
     updateSearchValue(evt) {
         this.setState({searchValue: evt.target.value});
-
-        console.log(this.state.searchValue);
     }
 
     render() {
@@ -101,7 +104,11 @@ class PublicPage extends Component {
 
                     <div id='public-content-holder'>
                         {
-                            this.state.public_info.map((view, i) => {
+                            this.state.public_info
+                            // Filters by name or tags
+                            .filter(view => view.name.toLowerCase().includes(this.state.searchValue.toLowerCase()) 
+                            || view.tags.toLowerCase().includes(this.state.searchValue.toLowerCase()))
+                            .map((view, i) => {
                                 return(<SmallPuzzleView 
                                     key={i}
                                     puzzleId={view.puzzle_id}

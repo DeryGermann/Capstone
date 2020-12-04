@@ -12,7 +12,7 @@ const SmallPuzzleView = props => {
     return(
         <div id='small-puzzle-view'>
             <Link className='link' to={{
-                pathname: '/puzzle',
+                pathname: '/public-puzzle',
                 data: data
             }}>
                 <img src={props.image} alt='Link is Broken'/>

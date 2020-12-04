@@ -63,9 +63,13 @@ class FriendsModal extends Component {
     render = () => {
         const showHideClassName = this.props.show ? "friends-modal friends-display-block" : "friends-modal friends-display-none";
 
+        let f_list = [];
+
         // console.log(!this.props.notifications.outgoing.includes(`Jim Bo Bo`))
-        // console.log(!this.props.friendsList.includes(`Daniil Baydak`));
+        // console.log(this.props.friendsList.includes(`Daniil Baydak`));
         // console.log(this.props.friendsList)
+        // console.log(typeof this.props.notifications.outgoing)
+        this.props.friendsList.forEach(f => f_list.push(f[0]));
 
         if (this.state.refresh) {
             return <Redirect to="account" />
@@ -87,14 +91,14 @@ class FriendsModal extends Component {
                             this.state.all_users
                             // Makes sure current user does not appear in the all user tab
                             .filter(user => user._id !== this.props.account_id)
-
-                            // Makes sure friends dont appear in the users list
-                            .filter(user => !this.props.friendsList.includes(`${user.firstName} ${user.lastName}`))
-
+                            
                             // Makes sure that the users in the requests page does not appear
                             .filter(user => !this.props.notifications.outgoing.includes(`${user.firstName} ${user.lastName}`))
                             .filter(user => !this.props.notifications.incoming.includes(`${user.firstName} ${user.lastName}`))
 
+                            // Makes sure friends dont appear in the users list
+                            .filter(user => !f_list.includes(`${user.firstName} ${user.lastName}`))
+                            
                             // Filters all users by their first and last name
                             .filter(user => user.firstName.toLowerCase().includes(this.state.searchName) 
                             || user.lastName.toLowerCase().includes(this.state.searchName))

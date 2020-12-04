@@ -8,6 +8,7 @@ import PublicPage from './components/public';
 import AccountPage from './components/account';
 import PuzzlePage from './components/puzzle';
 import ProtectedRoute from './components/protected_route';
+import PublicPuzzlePage from './components/puzzlePublic';
 
 class App extends Component {
 
@@ -22,6 +23,7 @@ class App extends Component {
         <Route path='/' exact component={HomePage}/>
         <Route path='/signup' component={SignUpPage}/>
         <Route path='/public' component={PublicPage}/>
+        <Route path='/public-puzzle' component={PublicPuzzlePage}/>
         <ProtectedRoute path='/account' component={AccountPage} auth={isLoggedIn}/>
         <ProtectedRoute path='/puzzle' component={PuzzlePage} auth={isLoggedIn}/>
       </Router>

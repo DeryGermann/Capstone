@@ -101,7 +101,8 @@ class AccountPage extends Component {
             .then(res => res.json())
             .then(result => this.setState({
                 ...this.state,
-                account_friends : [...this.state.account_friends, [`${result[0].firstName} ${result[0].lastName}`]]}));
+                account_friends : [...this.state.account_friends, [`${result[0].firstName} ${result[0].lastName}`]]
+            }));
         });
 
         // Assigns all the request ids for the current user
