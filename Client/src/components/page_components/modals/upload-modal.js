@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 class UploadModal extends Component {
     constructor(props) {
@@ -54,28 +55,33 @@ class UploadModal extends Component {
     }
     
     submitData = (evt) => {
-        // Should be refreshing. BUT doesn't
-        this.setState({ refresh : !this.state.refresh }, () => {
-            console.log(this.state.refresh);
-        });
         if (this.state.new_name !== "" && this.state.new_image !== "") {
             fetch(`http://localhost:3001/puzzles?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, 
-                {
-                    method: "POST",
-                    headers: new Headers({
-                        'Content-Type': 'application/x-www-form-urlencoded', 
-                    }),
-                    body: `account_id=${this.props.accountId}&personal_puzzle.name=${this.state.new_name}&personal_puzzle.tags=${this.state.new_tags}&personal_puzzle.image=${this.state.new_image}`
-                }
+            {
+                method: "POST",
+                headers: new Headers({
+                    'Content-Type': 'application/x-www-form-urlencoded', 
+                }),
+                body: `account_id=${this.props.accountId}&personal_puzzle.name=${this.state.new_name}&personal_puzzle.tags=${this.state.new_tags}&personal_puzzle.image=${this.state.new_image}`
+            }
             ).then(res => console.log(res.json()));
         } else {
             console.log('missing content');
+            
+            // Should be refreshing. BUT doesn't
+            this.setState({ refresh : !this.state.refresh }, () => {
+                console.log(this.state.refresh);
+            });
         }
     }
 
     render() {
         const showHideClassName = this.props.show ? 
         "upload-modal upload-display-block" : "upload-modal upload-display-none";
+
+        if (this.state.refresh) {
+            return <Redirect to="account" />
+        }
       
         return (
             <div className={showHideClassName}>
@@ -91,12 +97,12 @@ class UploadModal extends Component {
                         </div>
                         <div id='form-content'>
                             <label htmlFor='name'>Name</label>
-                            <input type='text' name='name' id='name'
+                            <input type='text' name='name' id='name' autoComplete="off"
                             value={this.state.new_name}
                             onChange={this.onNameChange}/>
     
                             <label htmlFor='tags'>Image Tags</label>
-                            <input type='text' name='tags' id='tags'
+                            <input type='text' name='tags' id='tags' autoComplete="off"
                             value={this.state.new_tags}
                             onChange={this.onTagChange}/>
                             <div style={{display: 'inline-block'}}>

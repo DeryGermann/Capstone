@@ -59,16 +59,30 @@ class PublicPage extends Component {
     }
 
     render() {
-        console.log(this.state.public_info);
+        let header = <Header 
+                        redirect='signup' 
+                        pageName='Sign Up' 
+                        goBackHome={this.state.gbh}
+                    />;
+
+        let redirect = "signup";
+        let pageName = 'Sign Up to Start Creating Puzzles Now!';
+
+        if (sessionStorage.getItem('user')) {
+            header = <Header 
+                        redirect='signup' 
+                        pageName='Log Out' 
+                        goBackHome={this.state.gbh}
+                    />;
+
+            redirect = "account";
+            pageName = 'View your puzzles!'
+        }
 
         return (
             <div id='pageContent'>
                 <div id='header'>
-                    <Header 
-                        redirect='signup' 
-                        pageName='Sign Up' 
-                        goBackHome={this.state.gbh}
-                    />
+                    { header }
                 </div>
                 <div id='content'>
                     <h1>
@@ -99,7 +113,7 @@ class PublicPage extends Component {
                     </div>
 
                     <div id='home-page-button'>
-                        <Button id='important_button' redirect='signup' pageName='Sign Up to Start Creating Puzzles Now!'/>
+                        <Button id='important_button' redirect={redirect} pageName={pageName}/>
                     </div>
                 </div>
                 <div id='footer'>

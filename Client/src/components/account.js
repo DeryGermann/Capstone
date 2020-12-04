@@ -165,7 +165,7 @@ class AccountPage extends Component {
 
         let id = this.state.account_id;
 
-        console.log(this.state.account_puzzles)
+        // console.log(this.state.account_puzzles)
 
         return (
             <div id='pageContent'>

@@ -7,7 +7,7 @@ const Header = props => {
         <>
             <div id='left-header'>
                 <a href='/'>
-                    <img id='logo' src="placeholder_logo.png" alt='Link is Broken'/>
+                    <img id='logo' src="logo.png" alt='Link is Broken'/>
                 </a>
             </div>
             <div id='middle-header'>

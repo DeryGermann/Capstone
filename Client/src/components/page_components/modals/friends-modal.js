@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 class FriendsModal extends Component {
     constructor(props) {
@@ -38,6 +39,8 @@ class FriendsModal extends Component {
         // My account ID
         // this.props.account_id
 
+        this.setState({ refresh: !this.state.refresh });
+
         // Send OUTGOING to the other user's account
         fetch('http://localhost:3001/requests?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495', {
             method: "POST",
@@ -64,6 +67,10 @@ class FriendsModal extends Component {
         // console.log(!this.props.friendsList.includes(`Daniil Baydak`));
         // console.log(this.props.friendsList)
 
+        if (this.state.refresh) {
+            return <Redirect to="account" />
+        }
+
         return (
             <div className={showHideClassName}>
                 <section className="modal-main">
@@ -71,7 +78,7 @@ class FriendsModal extends Component {
                     onClick={this.props.handleClose.bind(this)}>&times;</span>
                     
                     <label htmlFor='searchName'>Search For a User </label>
-                    <input type='text' name='name' id='searchName'
+                    <input type='text' name='name' id='searchName' autoComplete='off'
                     onChange={ this.filterSearchResults }
                     value={ this.state.searchName }/>
 

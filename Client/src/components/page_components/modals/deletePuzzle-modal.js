@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 class DeletePuzzle extends Component {
     constructor(props) {
@@ -36,6 +37,10 @@ class DeletePuzzle extends Component {
     render() {
         const showHideClassName = this.props.show ? 
         "delete-modal delete-display-block" : "delete-modal delete-display-none";
+
+        if (this.state.refresh) {
+            return <Redirect to="account" />
+        }
       
         return (
             <div className={showHideClassName}>

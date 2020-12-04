@@ -3,7 +3,6 @@ import GoogleLogin from 'react-google-login';
 
 import Header from './page_components/header';
 import Footer from './page_components/footer';
-import { Redirect } from 'react-router-dom';
 
 class SignUpPage extends Component {
     constructor(props){

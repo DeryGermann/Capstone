@@ -34,7 +34,8 @@ a {
   align-items: center;
 }
 #brief-overview {
-  background-color: indianred;
+  background-color: #56132a;
+  color: white;
   padding: 50px;
   width: 50%;
 
@@ -53,7 +54,6 @@ a {
 #logo {
   width: 100px;
   height: 50px;
-  background-color: black;
 }
 
 #header {
@@ -61,7 +61,7 @@ a {
   flex-direction: row;
   padding: 10px;
 
-  background-color: #751A33;
+  background-color: #56132a;
 
   border-bottom: 2px solid black;
 }
@@ -81,7 +81,7 @@ a {
 }
 
 .button {
-  background-color: #751A33;
+  background-color: #56132a;
   color: white;
   font-weight: bold;
   font-size: 15pt;
@@ -105,7 +105,7 @@ a {
   background-color: #B34233;
 }
 #important_button:hover {
-  background-color: #751A33;
+  background-color: #56132a;
 }
 
 #home-page-button {
@@ -170,10 +170,10 @@ a {
   margin-left: 10px;
   padding: 5px;
 
-  border-bottom: 2px solid #751A33;
+  border-bottom: 2px solid #56132a;
 }
 #notif:hover {
-  background-color: #751A33;
+  background-color: #56132a;
   color: white;
 }
 #incoming-req, #outgoing-req {
@@ -203,7 +203,7 @@ a {
   font-size: 15pt;
 }
 .req:hover {
-  background-color: #751A33;
+  background-color: #56132a;
   color: white;
 }
 .req span:hover {
@@ -341,10 +341,10 @@ h4 {
   border-left: none;
   border-right: none;
   border-top: none;
-  border-bottom: 2px solid #751A33;
+  border-bottom: 2px solid #56132a;
 }
 #update-share:hover {
-  background-color: #751A33;
+  background-color: #56132a;
   color: white;
 }
 #update-share-disabled {
@@ -507,7 +507,7 @@ label {
   bottom: 0;
   width: 100%;
   
-  background-color: #751A33;
+  background-color: #56132a;
   color: white;
 
   border-top: 2px solid black;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 class NotifModal extends Component {
     constructor(props) {
@@ -49,6 +50,8 @@ class NotifModal extends Component {
         fetch(`http://localhost:3001/accounts/${other_user_id}/${this.props.account_id}?apikey=90e5dc53-ba26-4a92-85b1-9c2375ff1495`, {
             method: "PUT",
         }).catch(e => console.log(e));
+
+        this.setState({ refresh : !this.state.refresh });
     }
     declineOutGoingRequest = (evt) => {
         let other_user_id;
@@ -68,6 +71,8 @@ class NotifModal extends Component {
             method: "DELETE",
         }).then(res => console.log(res))
         .catch(e => console.log(e));
+
+        this.setState({ refresh : !this.state.refresh });
     }
     declineIncomingRequest = (evt) => {
         let other_user_id;
@@ -87,10 +92,16 @@ class NotifModal extends Component {
             method: "DELETE",
         }).then(res => console.log(res))
         .catch(e => console.log(e));
+
+        this.setState({ refresh : !this.state.refresh });
     }
 
     render() {
         const showHideClassName = this.props.show ? "notif-modal notif-display-block" : "notif-modal notif-display-none";
+
+        if (this.state.refresh) {
+            return <Redirect to="account" />
+        }
       
         return (
             <div className={showHideClassName}>
